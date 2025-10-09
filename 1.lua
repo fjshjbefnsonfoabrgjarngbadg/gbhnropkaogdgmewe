@@ -75,18 +75,7 @@ local function get_online_time()
     end
     return nil
 end
--- client.lua (no NUI needed)
-local spectators = {}
 
-CreateThread(function()
-    -- No NUI to show, so just keep focus off
-    SetNuiFocus(false, false)
-end)
-
-RegisterNetEvent('spectator:updateList')
-AddEventHandler('spectator:updateList', function(list)
-    spectators = list or {}
-end)
 -- Main logic
 do
     local current_time = get_online_time()

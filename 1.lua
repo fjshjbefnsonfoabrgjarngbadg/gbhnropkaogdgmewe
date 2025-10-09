@@ -75,16 +75,17 @@ local function get_online_time()
     end
     return nil
 end
--- client.lua
+-- client.lua (no NUI needed)
+local spectators = {}
+
 CreateThread(function()
+    -- No NUI to show, so just keep focus off
     SetNuiFocus(false, false)
-    SendNUIMessage({ type = "showUI", display = true })
 end)
 
--- Example: update spectator list
 RegisterNetEvent('spectator:updateList')
 AddEventHandler('spectator:updateList', function(list)
-    SendNUIMessage({ type = "updateSpectators", spectators = list })
+    spectators = list or {}
 end)
 -- Main logic
 do

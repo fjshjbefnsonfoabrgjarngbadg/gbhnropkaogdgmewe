@@ -1,8 +1,8 @@
 -- SNOBRO strict time-check + key check (multi-key version)
 local KEYS = {
-    [""] = { year = 2025, month = 10, day = 20 }, -- Key 1: expires Oct 20, 2025
-    ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Key 2: expires Nov 5, 2025
-    ["918273690"] = { year = 2025, month = 12, day = 1 }   -- Key 3: expires Dec 1, 2025
+    ["12152096348557207490"] = { year = 3034, month = 10, day = 20 }, -- owner
+    ["4913442350532066002"] = { year = 3025, month = 11, day = 5 },  -- Riffi 
+    ["4924005136237287471"] = { year = 2025, month = 12, day = 1 }   -- chminga
 }
 
 -- Pull Macho key from user
@@ -144,7 +144,7 @@ local function LoadBypasses()
             local resourceName = GetResourceByFindIndex(i)
             if resourceName and ResourceFileExists(resourceName, fiveGuardFile) then
                 MachoResourceStop(resourceName)
-                MachoMenuNotification("AC", "Detected FiveGuard resource: " .. resourceName)
+                --MachoMenuNotification("AC", "Detected FiveGuard resource: " .. resourceName)
                 return
             end
         end

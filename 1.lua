@@ -1,4 +1,5 @@
--- SNOBRO strict time-check + key check (multi-key version)
+---hbnjmklp;[']']
+---- SNOBRO strict time-check + key check (multi-key version)
 local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
     ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 

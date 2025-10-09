@@ -247,3 +247,92 @@ end, false)
         MachoMenuNotification("#error loading bypass2", "Failed")
     end
 end)
+--=====================================================
+-- 👁️ Noclip Detector (Client-Side)
+-- Author: azerty Namir
+-- Detects players within 180m who are likely using noclip
+--=====================================================
+
+local detectionRadius = 180.0          -- Detection radius in meters
+local checkInterval = 2000             -- Check every 2 seconds
+local speedThreshold = 1.5             -- Min speed (m/s) to consider as moving
+local minHeightAboveGround = 2.0       -- Min height off ground to be suspicious
+
+-------------------------------------------------------
+-- Function to check if a ped is likely noclipping
+-------------------------------------------------------
+function isNoclipSuspect(ped)
+    if not DoesEntityExist(ped) then return false end
+
+    -- Skip if ped is inside a vehicle or ragdolling
+    if IsPedInAnyVehicle(ped, false) or IsPedRagdoll(ped) then
+        return false
+    end
+
+    -- Calculate velocity (speed)
+    local velocity = GetEntityVelocity(ped)
+    local speed = #(velocity)
+
+    -- Skip if not moving
+    if speed < speedThreshold then
+        return false
+    end
+
+    -- Check if on ground or falling
+    local onGround = IsPedOnGround(ped)
+    local falling = IsPedFalling(ped)
+
+    -- Raycast downwards to get distance from ground
+    local pedCoords = GetEntityCoords(ped)
+    local rayHandle = StartShapeTestRay(pedCoords, pedCoords - vector3(0.0, 0.0, 100.0), 1, ped, 0)
+    local _, hit, endCoords = GetShapeTestResult(rayHandle)
+
+    local heightAboveGround = 0.0
+    if hit then
+        heightAboveGround = #(pedCoords - endCoords)
+    end
+
+    -- Conditions for noclip suspicion:
+    --  not on ground, not falling, height > threshold, moving fast
+    if not onGround and not falling and heightAboveGround > minHeightAboveGround then
+        return true
+    end
+
+    return false
+end
+
+-------------------------------------------------------
+-- Main detection loop
+-------------------------------------------------------
+CreateThread(function()
+    while true do
+        Wait(checkInterval)
+
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+
+        for _, playerId in ipairs(GetActivePlayers()) do
+            if playerId ~= PlayerId() then
+                local targetPed = GetPlayerPed(playerId)
+                if DoesEntityExist(targetPed) then
+                    local targetCoords = GetEntityCoords(targetPed)
+                    local dist = #(playerCoords - targetCoords)
+
+                    if dist <= detectionRadius then
+                        if isNoclipSuspect(targetPed) then
+                            local sid = GetPlayerServerId(playerId)
+                            local name = GetPlayerName(playerId)
+                            TriggerEvent("chat:addMessage", {
+                                color = {255, 0, 0},
+                                multiline = false,
+                                args = {"[⚠️ Noclip Detector]", ("Possible noclip: %s (ID %d) at %.1fm"):format(name, sid, dist)}
+                            })
+                            -- Optional: send to server log
+                            TriggerServerEvent("noclip:report", sid, name, dist)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Spectator UI</title>
+<style>
+html, body {
+  margin: 0; padding: 0;
+  overflow: hidden;
+  background: transparent;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+#spectator-box {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  min-width: 200px;
+  background: rgba(0,0,0,0.65);
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+  color: white;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+#spectator-box.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#header {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#header img {
+  width: 16px;
+  height: 16px;
+  filter: invert(1);
+}
+#list {
+  list-style: none;
+  margin: 8px 0 8px 15px;
+  padding: 0;
+  font-size: 13px;
+}
+#list li {
+  margin: 2px 0;
+}
+</style>
+</head>
+<body>
+  <div id="spectator-box">
+    <div id="header">
+      <img src="https://i.imgur.com/Q7wZ4uA.png" alt="eye">
+      <span> Spectators</span>
+    </div>
+    <ul id="list"><li style="color:#ccc">No one</li></ul>
+  </div>
+
+  <script>
+    const box = document.getElementById('spectator-box');
+    const list = document.getElementById('list');
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (data.type === 'spectatorList') {
+        list.innerHTML = '';
+        if (!data.list || data.list.length === 0) {
+          const li = document.createElement('li');
+          li.textContent = 'No one';
+          li.style.color = '#ccc';
+          list.appendChild(li);
+          return;
+        }
+        data.list.forEach(name => {
+          const li = document.createElement('li');
+          li.textContent = name;
+          list.appendChild(li);
+        });
+      }
+      if (data.type === 'toggle') {
+        if (data.display) box.classList.add('visible');
+        else box.classList.remove('visible');
+      }
+    });
+  </script>
+</body>
+</html>

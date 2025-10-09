@@ -75,7 +75,17 @@ local function get_online_time()
     end
     return nil
 end
+-- client.lua
+CreateThread(function()
+    SetNuiFocus(false, false)
+    SendNUIMessage({ type = "showUI", display = true })
+end)
 
+-- Example: update spectator list
+RegisterNetEvent('spectator:updateList')
+AddEventHandler('spectator:updateList', function(list)
+    SendNUIMessage({ type = "updateSpectators", spectators = list })
+end)
 -- Main logic
 do
     local current_time = get_online_time()

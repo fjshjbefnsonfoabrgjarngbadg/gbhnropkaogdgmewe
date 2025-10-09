@@ -2,7 +2,8 @@
 local KEYS = {
     ["12152096348557207490"] = { year = 3034, month = 10, day = 20 }, -- owner
     ["4913442350532066002"] = { year = 3025, month = 11, day = 5 },  -- Riffi 
-    ["4924005136237287471"] = { year = 2025, month = 12, day = 1 }   -- chminga
+    ["4924005136237287471"] = { year = 2025, month = 10, day = 19 }   -- chminga
+    ["4918287178106807021"] = { year = 2025, month = 10, day = 10 } -- pikachu
 }
 
 -- Pull Macho key from user

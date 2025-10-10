@@ -4,6 +4,7 @@ local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
     ["4913442350532066002"] = { year = 3025, month = 11, day = 5 },  -- Riffi 
     ["4924005136237287471"] = { year = 2025, month = 10, day = 19 },  -- chminga
+    ["4911671923569070297"] = { year = 2025, month = 10, day = 12 },  -- s4nseix
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     ["4918287178106807021"] = { year = 2025, month = 10, day = 12 }-- pikachu
 }

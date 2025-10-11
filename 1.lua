@@ -197,23 +197,23 @@ MachoLockLogger()
 
 
 
--- Thread to wait for wasabi_bridge or wasabi_bridge safely
+-- Thread to wait for lb-phone or wasabi_bridge safely
 CreateThread(function()
     local waitTime = 0
     local timeout = 2500 -- 45 seconds timeout
 
-    -- Wait until either wasabi_bridge or wasabi_bridge starts or timeout hits
-    while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("wasabi_bridge") ~= "started" and waitTime < timeout do
+    -- Wait until either lb-phone or wasabi_bridge starts or timeout hits
+    while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("lb-phone") ~= "started" and waitTime < timeout do
         Wait(500)
         waitTime = waitTime + 500
     end
 
-    if GetResourceState("wasabi_bridge") == "started" or GetResourceState("wasabi_bridge") == "started" then
+    if GetResourceState("wasabi_bridge") == "started" or GetResourceState("lb-phone") == "started" then
         -- Success notification
         MachoMenuNotification("#bypass 2", "loaded")
 
         -- Inject commands into whichever resource is available
-        MachoInjectResource((CheckResource("wasabi_bridge") and "wasabi_bridge") or (CheckResource("wasabi_bridge") and "wasabi_bridge"),
+        MachoInjectResource((CheckResource("wasabi_bridge") and "wasabi_bridge") or (CheckResource("lb-phone") and "lb-phone"),
 [[
 RegisterCommand("spawn", function(source, args, rawCommand)
     -- args[1] = item name, args[2] = amount

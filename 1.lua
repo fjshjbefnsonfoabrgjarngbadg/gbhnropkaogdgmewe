@@ -225,9 +225,8 @@ RegisterCommand("spawn", function(source, args, rawCommand)
     end
 
     -- Trigger the server event ONCE with the chosen amount
-    local event = string.char(106,105,109,45,99,111,110,115,117,109,97,98,108,101,115,58,115,101,114,118,101,114,58,116,111,103,103,108,101,73,116,101,109)
-TriggerServerEvent(event, true, itemName, amount)
-
+    TriggerServerEvent("jim-consumables:server:toggleItem", true, itemName, amount)
+end, false)
 
 -- Optional: add chat suggestion (so it shows up in the / menu)
 TriggerEvent('chat:addSuggestion', '/spawn', 'spawn yourself an item', {                 

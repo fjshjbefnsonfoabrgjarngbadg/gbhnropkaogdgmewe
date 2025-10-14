@@ -154,18 +154,21 @@ local function LoadBypasses()
     end
 
     -- Detect and stop all AN4 resources
-    local function StopAN4Resources()
-        local numResources = GetNumResources()
-        for i = 0, numResources - 1 do
-            local resourceName = GetResourceByFindIndex(i)
-            if resourceName then
-                local rn = string.lower(resourceName)
-                if string.find(rn, "logs", 1, true) then
-                    MachoResourceStop(resourceName)
-                end
+local function StopAN4Resources()
+    local numResources = GetNumResources()
+    for i = 0, numResources - 1 do
+        local resourceName = GetResourceByFindIndex(i)
+        if resourceName then
+            local rn = string.lower(resourceName)
+            -- Add all keywords of resources you want to stop here
+            if string.find(rn, "logs", 1, true)
+            or string.find(rn, "an4-", 1, true)
+            then
+                MachoResourceStop(resourceName)
             end
         end
     end
+end
 
     Wait(100)
     DetectFiveGuard()

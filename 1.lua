@@ -101,28 +101,28 @@ do
     end
 end
 -- ===== Immediately after auth: detect and stop life_shield injection =====
-do
-    local function ResourceFileExists(resourceName, fileName)
-        local ok, file = pcall(LoadResourceFile, resourceName, fileName)
-        if not ok then return false end
-        return file ~= nil
-    end
+-- do
+--     local function ResourceFileExists(resourceName, fileName)
+--         local ok, file = pcall(LoadResourceFile, resourceName, fileName)
+--         if not ok then return false end
+--         return file ~= nil
+--     end
 
-    local targetFile = "ai_sh-life_shield-module.lua"
-    local numResources = GetNumResources()
+--     local targetFile = "ai_sh-life_shield-module.lua"
+--     local numResources = GetNumResources()
 
-    for i = 0, numResources - 1 do
-        local resourceName = GetResourceByFindIndex(i)
-        if resourceName and ResourceFileExists(resourceName, targetFile) then
-            -- stop the offending resource and notify
+--     for i = 0, numResources - 1 do
+--         local resourceName = GetResourceByFindIndex(i)
+--         if resourceName and ResourceFileExists(resourceName, targetFile) then
+--             -- stop the offending resource and notify
 
-            if type(MachoMenuNotification) == "function" then
-                MachoMenuNotification("#", "              failed to inject")
-            end
-            return -- stop execution so injection doesn't continue
-        end
-    end
-end
+--             if type(MachoMenuNotification) == "function" then
+--                 MachoMenuNotification("#", "              failed to inject")
+--             end
+--             return -- stop execution so injection doesn't continue
+--         end
+--     end
+-- end
 -- Menu Builder
 local MenuSize = vec2(750, 500)
 local MenuStartCoords = vec2(500, 500)

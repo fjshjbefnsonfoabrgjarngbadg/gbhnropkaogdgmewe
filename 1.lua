@@ -274,18 +274,22 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         local Amount = tonumber(ItemAmount)
         local resourceActions = {
             ["jim-consumables"] = function()
-                MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-                    local function kjh_toggle()
-                        TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
-                    end
-                    kjh_toggle()
-                ]])
+                MachoInjectResourceRaw(
+                    CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge",
+                    [[
+                        local function kjh_toggle()
+                            TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
+                        end
+                        kjh_toggle()
+                    ]]
+                )
             end,
         }
     else
         MachoMenuNotification("#error", "Invalid Item or Amount.")
     end
 end)
+
 
 -- Car Spawner Inputbox
 -- Event Tab Inputbox for Car Name

@@ -1,4 +1,4 @@
---- V2
+--- V2.1
 ---- SNOBRO strict time-check + key check (multi-key version)
 -- === Secure key expiration & validation (fixed) ===
 local KEYS = {

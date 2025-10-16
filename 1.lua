@@ -264,7 +264,8 @@ CreateThread(function()
         -- Success notification
         Wait(1800)
         MachoMenuNotification("#bypass ", "loaded")
-    end)
+    end
+end)
 
 -- Item Spawner Button
 MachoMenuButton(EventTabSections[1], "Spawn", function()

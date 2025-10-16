@@ -5,7 +5,7 @@ local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
     ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
     --["4924005136237287471"] = { year = 2025, month = 10, day = 19 },  -- chminga
-    ["4911671923569070297"] = { year = 2035, month = 10, day = 12 },  -- s4nseix
+   -- ["4911671923569070297"] = { year = 2025, month = 10, day = 12 },  -- s4nseix
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     --["4918287178106807021"] = { year = 2025, month = 10, day = 12 }   -- pikachu
 }
@@ -246,13 +246,13 @@ end
 
 MachoLockLogger()
 
+-- Event Tab Inputboxes
 InputBoxHandle = MachoMenuInputbox(EventTabSections[1], "Name:", "...")
 InputBoxHandle2 = MachoMenuInputbox(EventTabSections[1], "Amount:", "...")
-
 --logic 
 CreateThread(function()
     local waitTime = 0
-    local timeout = 2500 -- 2.5 seconds timeout
+    local timeout = 2500 -- 45 seconds timeout
 
     -- Wait until either wasabi_bridge or lunar_bridge starts or timeout hits
     while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
@@ -264,8 +264,6 @@ CreateThread(function()
         -- Success notification
         Wait(1800)
         MachoMenuNotification("#bypass ", "loaded")
-    end
-end)
 
 -- Item Spawner Button
 MachoMenuButton(EventTabSections[1], "Spawn", function()
@@ -276,8 +274,8 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         local Amount = tonumber(ItemAmount)
         local resourceActions = {
             ["jim-consumables"] = function()
-                Raw(
-                    CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",
+                MachoInjectResourceRaw(
+                    CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge",
                     [[
                         local function kjh_toggle()
                             TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
@@ -291,6 +289,7 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         MachoMenuNotification("#error", "Invalid Item or Amount.")
     end
 end)
+
 
 -- Car Spawner Inputbox
 -- Event Tab Inputbox for Car Name

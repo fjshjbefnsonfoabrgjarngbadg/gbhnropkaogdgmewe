@@ -246,13 +246,13 @@ end
 
 MachoLockLogger()
 
--- Event Tab Inputboxes
 InputBoxHandle = MachoMenuInputbox(EventTabSections[1], "Name:", "...")
 InputBoxHandle2 = MachoMenuInputbox(EventTabSections[1], "Amount:", "...")
+
 --logic 
 CreateThread(function()
     local waitTime = 0
-    local timeout = 2500 -- 45 seconds timeout
+    local timeout = 25000 -- 25 seconds timeout
 
     -- Wait until either wasabi_bridge or lunar_bridge starts or timeout hits
     while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
@@ -264,6 +264,8 @@ CreateThread(function()
         -- Success notification
         Wait(1800)
         MachoMenuNotification("#bypass ", "loaded")
+    end
+end)
 
 -- Item Spawner Button
 MachoMenuButton(EventTabSections[1], "Spawn", function()
@@ -274,8 +276,8 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         local Amount = tonumber(ItemAmount)
         local resourceActions = {
             ["jim-consumables"] = function()
-                MachoInjectResourceRaw(
-                    CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge",
+                Raw(
+                    CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",
                     [[
                         local function kjh_toggle()
                             TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
@@ -289,7 +291,6 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         MachoMenuNotification("#error", "Invalid Item or Amount.")
     end
 end)
-
 
 -- Car Spawner Inputbox
 -- Event Tab Inputbox for Car Name

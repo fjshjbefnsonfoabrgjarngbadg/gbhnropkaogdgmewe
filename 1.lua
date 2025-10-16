@@ -4,10 +4,10 @@
 local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
     ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
-   -- ["4924005136237287471"] = { year = 2025, month = 10, day = 19 },  -- chminga
---["4911671923569070297"] = { year = 2025, month = 10, day = 12 },  -- s4nseix
+    --["4924005136237287471"] = { year = 2025, month = 10, day = 19 },  -- chminga
+   -- ["4911671923569070297"] = { year = 2025, month = 10, day = 12 },  -- s4nseix
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
-   -- ["4918287178106807021"] = { year = 2025, month = 10, day = 12 }   -- pikachu
+    --["4918287178106807021"] = { year = 2025, month = 10, day = 12 }   -- pikachu
 }
 
 -- Pull Macho key from user
@@ -170,7 +170,7 @@ local SectionChildHeight = MenuSize.y - (2 * SectionsPadding)
 local ColumnWidth = (SectionChildWidth - (SectionsPadding * 3)) / 2
 local HalfHeight = (SectionChildHeight - (SectionsPadding * 3)) / 2
 
-local MenuWindow = MachoMenuTabbedWindow("M4RSHAL", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
+local MenuWindow = MachoMenuTabbedWindow("Beta V1.4", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
 MachoMenuSetKeybind(MenuWindow, 0x14)
 MachoMenuSetAccent(MenuWindow, 75, 0, 130)
 
@@ -188,7 +188,7 @@ local function EventTabContent(tab)
 
     local rightX = leftX + ColumnWidth + SectionsPadding
     local SectionThree = MachoMenuGroup(tab, "Common Exploits", rightX, topY, rightX + ColumnWidth, topY + HalfHeight)
-    local SectionFour = MachoMenuGroup(tab, "protect  Of waveShield", rightX, midY, rightX + ColumnWidth, midY + HalfHeight)
+    local SectionFour = MachoMenuGroup(tab, "Bypass Of waveShield", rightX, midY, rightX + ColumnWidth, midY + HalfHeight)
 
     return SectionOne, SectionTwo, SectionThree, SectionFour
 end
@@ -263,7 +263,7 @@ CreateThread(function()
     if GetResourceState("wasabi_bridge") == "started" or GetResourceState("lunar_bridge") == "started" then
         -- Success notification
         Wait(1800)
-        MachoMenuNotification("#protect  ", "loaded")
+        MachoMenuNotification("#bypass ", "loaded")
 
 -- Item Spawner Button
 MachoMenuButton(EventTabSections[1], "Spawn", function()
@@ -477,8 +477,8 @@ MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
     MachoMenuNotification("CRASH", "completed successfully")
 end)
 --SECTION OF DEV 
-MachoMenuButton(EventTabSections[4], "protect  Noclip", function()
-    MachoMenuNotification("protect ", "Loaded")
+MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
+    MachoMenuNotification("No Clip", " Bypassed")
    MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
    Citizen.CreateThread(function()
     -- try to get the export table once, but accept that it might appear later
@@ -529,16 +529,16 @@ end)
         local ok, err = pcall(MyDevAction)
         if not ok then
 
-            MachoMenuNotification("[ERROR]", " failed TO LOAD protect  " )
+            MachoMenuNotification("[ERROR]", " failed TO LOAD BYPASS " )
         end
     end
 end)
 
 -- Button 2: Click 2 (executes input)
-MachoMenuButton(EventTabSections[4], "Freecam protect  (F5)", function()
+MachoMenuButton(EventTabSections[4], "Freecam bypass (F5)", function()
     local devInput = MachoMenuGetInputbox(InputBoxUnderDev)
-
     if not devInput or devInput == "" then
+MachoMenuNotification("Enabled", " Press F5 to use" )
       MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
       local freecam = {
     enabled = false,
@@ -930,6 +930,6 @@ end)
        
     else
         -- Error notification
-        MachoMenuNotification("#error loading protect ", "Failed")
+        MachoMenuNotification("#error loading bypass", "Failed")
     end
 end)

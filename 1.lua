@@ -156,6 +156,7 @@ do
         end
     end
 end
+
 -- Menu Builder
 local MenuSize = vec2(750, 500)
 local MenuStartCoords = vec2(500, 500)
@@ -170,7 +171,7 @@ local SectionChildHeight = MenuSize.y - (2 * SectionsPadding)
 local ColumnWidth = (SectionChildWidth - (SectionsPadding * 3)) / 2
 local HalfHeight = (SectionChildHeight - (SectionsPadding * 3)) / 2
 
-local MenuWindow = MachoMenuTabbedWindow("Beta V1.5", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
+local MenuWindow = MachoMenuTabbedWindow("Beta V1.4", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
 MachoMenuSetKeybind(MenuWindow, 0x14)
 MachoMenuSetAccent(MenuWindow, 75, 0, 130)
 
@@ -264,8 +265,6 @@ CreateThread(function()
         -- Success notification
         Wait(1800)
         MachoMenuNotification("#bypass ", "loaded")
-    end
-end)
 
 -- Item Spawner Button
 MachoMenuButton(EventTabSections[1], "Spawn", function()

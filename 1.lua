@@ -129,7 +129,7 @@ do
 
     if type(current_time) ~= "number" or type(expire_time) ~= "number" then
         if type(MachoMenuNotification) == "function" then
-            MachoMenuNotification("Error", " connect to the server Host ")
+            MachoMenuNotification("Error", "Failed to connect to the Host ")
         end
         return
     end

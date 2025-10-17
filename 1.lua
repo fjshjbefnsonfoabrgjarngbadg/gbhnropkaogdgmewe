@@ -4,9 +4,9 @@
 local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
     ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
-    --["4924005136237287471"] = { year = 2025, month = 10, day = 19 },  -- chminga
- --  ["4911671923569070297"] = { year = 2025, month = 10, day = 12 },  -- s4nseix
- --   ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
+    ["4924005136237287471"] = { year = 2025, month = 10, day = 22 },  -- chminga
+    ["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
+    ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     --["4918287178106807021"] = { year = 2025, month = 10, day = 12 }   -- pikachu
 }
 
@@ -27,14 +27,26 @@ if not key_info then
 end
 
 ------------------------------------------------------
--- Safe helper: Convert Y/M/D/H/M/S to Unix timestamp
+-- Safe conversion Y/M/D/H/M/S → Unix timestamp
 ------------------------------------------------------
 local function ymd_to_unix(year, month, day, hour, min, sec)
-    hour = hour or 0
-    min  = min  or 0
-    sec  = sec  or 0
+    hour, min, sec = hour or 0, min or 0, sec or 0
+
+    if type(os) == "table" and type(os.time) == "function" then
+        return os.time({
+            year = year,
+            month = month,
+            day = day,
+            hour = hour,
+            min = min,
+            sec = sec,
+            isdst = false
+        })
+    end
+
+    -- Fallback: manual math if os library is missing
     if month <= 2 then
-        year  = year - 1
+        year = year - 1
         month = month + 12
     end
     local A = math.floor(year / 100)
@@ -48,21 +60,22 @@ end
 ------------------------------------------------------
 -- Expiration timestamp for this key
 ------------------------------------------------------
-local expire_time = ymd_to_unix(key_info.year, key_info.month, key_info.day, 0, 0, 0)
+local expire_time = ymd_to_unix(key_info.year, key_info.month, key_info.day)
 
 ------------------------------------------------------
 -- Helper: humanize time remaining
 ------------------------------------------------------
 local function humanize(sec)
-    sec = math.floor(sec or 0)
+    if not sec then return "unknown" end
+    sec = math.max(0, math.floor(sec))
     local d = math.floor(sec / 86400); sec = sec % 86400
     local h = math.floor(sec / 3600);  sec = sec % 3600
     local m = math.floor(sec / 60);    local s = sec
     local out = {}
-    if d > 0 then out[#out + 1] = d .. "d" end
-    if h > 0 then out[#out + 1] = h .. "h" end
-    if m > 0 then out[#out + 1] = m .. "m" end
-    if s > 0 or #out == 0 then out[#out + 1] = s .. "s" end
+    if d > 0 then table.insert(out, d .. "d") end
+    if h > 0 then table.insert(out, h .. "h") end
+    if m > 0 then table.insert(out, m .. "m") end
+    if s > 0 or #out == 0 then table.insert(out, s .. "s") end
     return table.concat(out, " ")
 end
 
@@ -75,32 +88,33 @@ local time_urls = {
 }
 
 ------------------------------------------------------
--- Fetch online time (safe, with fallbacks)
+-- Fetch online UTC time safely
 ------------------------------------------------------
 local function get_online_time()
-    -- Try HTTP worldtime API first
     if type(MachoWebRequest) == "function" then
         for _, url in ipairs(time_urls) do
             local ok, resp = pcall(MachoWebRequest, url)
             if ok and resp then
-                local ut = resp:match("unixtime:%s*(%d+)")
-                if ut then return tonumber(ut) end
+                local unixtime = resp:match("unixtime:%s*(%d+)")
+                if unixtime then return tonumber(unixtime) end
 
-                local json_time = resp:match('"currentDateTime"%s*:%s*"([^"]+)"')
-                if json_time then
-                    local y, m, d, h, mi, s = json_time:match("(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)")
-                    if y and m and d and h and mi and s then
-                        return ymd_to_unix(tonumber(y), tonumber(m), tonumber(d),
-                                           tonumber(h), tonumber(mi), tonumber(s))
+                local datetime = resp:match('"datetime"%s*:%s*"([^"]+)"')
+                if datetime then
+                    local y, m, d, h, mi, s = datetime:match("(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)")
+                    if y then
+                        return ymd_to_unix(
+                            tonumber(y), tonumber(m), tonumber(d),
+                            tonumber(h), tonumber(mi), tonumber(s)
+                        )
                     end
                 end
             end
         end
     end
 
-    -- Fallback: os.time or GetGameTimer
-    if type(os) == "table" and type(os.time) == "function" then
-        return os.time()
+    -- Fallback: if os exists, use it
+    if type(os) == "table" and type(os.time) == "function" and type(os.date) == "function" then
+        return os.time(os.date("!*t"))
     elseif type(GetGameTimer) == "function" then
         return math.floor(GetGameTimer() / 1000)
     end
@@ -115,7 +129,7 @@ do
 
     if type(current_time) ~= "number" or type(expire_time) ~= "number" then
         if type(MachoMenuNotification) == "function" then
-            MachoMenuNotification("Error", "Cannot validate key (invalid time data)")
+            MachoMenuNotification("Error", " connect to the server Host ")
         end
         return
     end
@@ -778,9 +792,10 @@ end)
     if not ok then
         MachoMenuNotification("[DEV - RUNTIME ERR]", tostring(runErr))
     else
-        MachoMenuNotification("[UNDER DEV]", "Click 2 executed input successfully.")
+        MachoMenuNotification("[UNDER DEV]", "SORRY")
     end
 end)
+
 -- Settings Tab
 MachoMenuButton(SettingTabSections[1], "Unload", function()
     MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
@@ -797,112 +812,110 @@ MachoMenuButton(SettingTabSections[1], "Unload", function()
 end)
 MachoMenuButton(SettingTabSections[3], "Anti-Cheat Checker", function()
     local function notify(fmt, ...)
-            MachoMenuNotification("Trash", string.format(fmt, ...))
-        end
+        MachoMenuNotification("Trash", string.format(fmt, ...))
+    end
 
-        local function ResourceFileExists(resourceNameTwo, fileNameTwo)
-            local ok, file = pcall(LoadResourceFile, resourceNameTwo, fileNameTwo)
-            return ok and file ~= nil
-        end
+    local function ResourceFileExists(resourceNameTwo, fileNameTwo)
+        local ok, file = pcall(LoadResourceFile, resourceNameTwo, fileNameTwo)
+        return ok and file ~= nil
+    end
 
-        local function ReadResourceFileSafe(resourceNameTwo, fileNameTwo)
-            local ok, file = pcall(LoadResourceFile, resourceNameTwo, fileNameTwo)
-            if not ok then return nil end
-            return file
-        end
+    local function ReadResourceFileSafe(resourceNameTwo, fileNameTwo)
+        local ok, file = pcall(LoadResourceFile, resourceNameTwo, fileNameTwo)
+        if not ok then return nil end
+        return file
+    end
 
-        local function findInStringInsensitive(haystack, needle)
-            if not haystack or not needle then return false end
-            return string.find(string.lower(haystack), string.lower(needle), 1, true) ~= nil
-        end
+    local function findInStringInsensitive(haystack, needle)
+        if not haystack or not needle then return false end
+        return string.find(string.lower(haystack), string.lower(needle), 1, true) ~= nil
+    end
 
-        local function ScanForAntiCheat()
-            local numResources = GetNumResources()
-            local acFiles = {
-                { name = "ai_module_fg-obfuscated.lua", acName = "FiveGuard" },
-            }
-            local acKeywords = {
-                { key = "reaperv", name = "ReaperV4" },
-                { key = "fini", name = "FiniAC" },
-                { key = "chubsac", name = "ChubsAC" },
-                { key = "fireac", name = "FireAC" },
-                { key = "drillac", name = "DrillAC" },
-                { key = "waveshield", name = "WaveShield" },
-                { key = "likizao_ac", name = "Likizao-AC" },
-                { key = "greek", name = "GreekAC" },
-                { key = "pac", name = "PhoenixAC" },
-                { key = "electronac", name = "ElectronAC" },
-            }
+    local function ScanForAntiCheat()
+        local numResources = GetNumResources()
+        local acFiles = {
+            { name = "ai_module_fg-obfuscated.lua", acName = "FiveGuard" },
+        }
+        local acKeywords = {
+            { key = "reaperv", name = "ReaperV4" },
+            { key = "fini", name = "FiniAC" },
+            { key = "chubsac", name = "ChubsAC" },
+            { key = "fireac", name = "FireAC" },
+            { key = "drillac", name = "DrillAC" },
+            { key = "waveshield", name = "WaveShield" },
+            { key = "likizao_ac", name = "Likizao-AC" },
+            { key = "greek", name = "GreekAC" },
+            { key = "pac", name = "PhoenixAC" },
+            { key = "electronac", name = "ElectronAC" },
+        }
 
-            local manifestFilesToCheck = {
-                "fxmanifest.lua",
-                "__resource.lua",
-                "resource.lua",
-            }
-            local commonACFileNames = {
-                "client.lua","client/main.lua","cl_main.lua","ai_module_fg-obfuscated.lua",
-                "ac_client.lua","anticheat_client.lua","client/ac.lua"
-            }
+        local manifestFilesToCheck = {
+            "fxmanifest.lua",
+            "__resource.lua",
+            "resource.lua",
+        }
+        local commonACFileNames = {
+            "client.lua","client/main.lua","cl_main.lua","ai_module_fg-obfuscated.lua",
+            "ac_client.lua","anticheat_client.lua","client/ac.lua"
+        }
 
-            for i = 0, numResources - 1 do
-                local resourceName = GetResourceByFindIndex(i)
-                if resourceName then
-                    local resourceLower = string.lower(resourceName)
+        for i = 0, numResources - 1 do
+            local resourceName = GetResourceByFindIndex(i)
+            if resourceName then
+                local resourceLower = string.lower(resourceName)
 
-                    for _, acFile in ipairs(acFiles) do
-                        if ResourceFileExists(resourceName, acFile.name) then
-                            notify("Anti-Cheat found: %s (file %s)", acFile.acName, acFile.name)
-                            AntiCheat = acFile.acName
-                            return resourceName, acFile.acName
-                        end
+                for _, acFile in ipairs(acFiles) do
+                    if ResourceFileExists(resourceName, acFile.name) then
+                        notify("Anti-Cheat found: %s (file %s)", acFile.acName, acFile.name)
+                        AntiCheat = acFile.acName
+                        return resourceName, acFile.acName
                     end
+                end
 
-                    for _, fname in ipairs(commonACFileNames) do
-                        if ResourceFileExists(resourceName, fname) then
-                            notify("Anti-Cheat likely in %s (found file %s)", resourceName, fname)
-                            AntiCheat = "Unknown (file:" .. fname .. ")"
-                            return resourceName, AntiCheat
-                        end
+                for _, fname in ipairs(commonACFileNames) do
+                    if ResourceFileExists(resourceName, fname) then
+                        notify("Anti-Cheat likely in %s (found file %s)", resourceName, fname)
+                        AntiCheat = "Unknown (file:" .. fname .. ")"
+                        return resourceName, AntiCheat
                     end
+                end
 
-                    for _, mf in ipairs(manifestFilesToCheck) do
-                        local content = ReadResourceFileSafe(resourceName, mf)
-                        if content then
-                            for _, fname in ipairs(commonACFileNames) do
-                                if findInStringInsensitive(content, fname) then
-                                    notify("Anti-Cheat referenced in manifest of %s (mentions %s)", resourceName, fname)
-                                    AntiCheat = "Unknown (manifest ref)"
-                                    return resourceName, AntiCheat
-                                end
-                            end
-                            for _, k in ipairs(acKeywords) do
-                                if findInStringInsensitive(content, k.key) then
-                                    notify("Anti-Cheat: %s (detected in %s)", k.name, resourceName)
-                                    AntiCheat = k.name
-                                    return resourceName, k.name
-                                end
+                for _, mf in ipairs(manifestFilesToCheck) do
+                    local content = ReadResourceFileSafe(resourceName, mf)
+                    if content then
+                        for _, fname in ipairs(commonACFileNames) do
+                            if findInStringInsensitive(content, fname) then
+                                notify("Anti-Cheat referenced in manifest of %s (mentions %s)", resourceName, fname)
+                                AntiCheat = "Unknown (manifest ref)"
+                                return resourceName, AntiCheat
                             end
                         end
-                    end
-
-                    for _, k in ipairs(acKeywords) do
-                        if findInStringInsensitive(resourceLower, k.key) then
-                            notify("Anti-Cheat: %s (resource name %s)", k.name, resourceName)
-                            AntiCheat = k.name
-                            return resourceName, k.name
+                        for _, k in ipairs(acKeywords) do
+                            if findInStringInsensitive(content, k.key) then
+                                notify("Anti-Cheat: %s (detected in %s)", k.name, resourceName)
+                                AntiCheat = k.name
+                                return resourceName, k.name
+                            end
                         end
                     end
                 end
-            end
 
-            notify("No Anti-Cheat found")
-            return nil, nil
+                for _, k in ipairs(acKeywords) do
+                    if findInStringInsensitive(resourceLower, k.key) then
+                        notify("Anti-Cheat: %s (resource name %s)", k.name, resourceName)
+                        AntiCheat = k.name
+                        return resourceName, k.name
+                    end
+                end
+            end
         end
 
-        ScanForAntiCheat()
-    end)
+        notify("No Anti-Cheat found")
+        return nil, nil
+    end
 
-
+    ScanForAntiCheat()
+end)
 
 MachoMenuButton(SettingTabSections[3], "Framework Checker", function()
     local function notify(fmt, ...)
@@ -943,10 +956,4 @@ MachoMenuButton(SettingTabSections[3], "Framework Checker", function()
 
     local frameworkName = DetectFramework()
     notify("Framework: %s", frameworkName)
-end)
-       
-    else
-        -- Error notification
-        MachoMenuNotification("#error loading bypass", "Failed")
-    end
 end)

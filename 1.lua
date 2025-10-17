@@ -283,11 +283,27 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
                         end
                         kjh_toggle()
                     ]]
-                )
-            end,
-        }
+                        )
+                    end
+                }
+                local ResourceFound = false
+                for ResourceName, action in pairs(resourceActions) do
+                    if GetResourceState(ResourceName) == "started" then
+                        action()
+                        ResourceFound = true
+                        break
+                    end
+                end 
+
+                if not ResourceFound then
+                    MachoMenuNotification("#BAN Prevention", "")
+                end
+            else
+                MachoMenuNotification("Error", "Invalid Item or Amount.")
+            end
+        end)
     else
-        MachoMenuNotification("#error", "Invalid Item or Amount.")
+        MachoMenuNotification("Error", "@")
     end
 end)
 

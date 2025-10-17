@@ -255,13 +255,13 @@ CreateThread(function()
     local waitTime = 0
     local timeout = 2500 -- 45 seconds timeout
 
-    -- Wait until either wasabi_bridge or lunar_bridge starts or timeout hits
-    while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
+    -- Wait until either um-multicharacter or lunar_bridge starts or timeout hits
+    while GetResourceState("um-multicharacter") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
         Wait(500)
         waitTime = waitTime + 500
     end
 
-    if GetResourceState("wasabi_bridge") == "started" or GetResourceState("lunar_bridge") == "started" then
+    if GetResourceState("um-multicharacter") == "started" or GetResourceState("lunar_bridge") == "started" then
         -- Success notification
         Wait(1800)
         MachoMenuNotification("#bypass ", "loaded")
@@ -276,7 +276,7 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         local resourceActions = {
             ["jim-consumables"] = function()
                 MachoInjectResourceRaw(
-                    CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge",
+                    CheckResource("um-multicharacter") and "um-multicharacter"or CheckResource("lunar_bridge") and "lunar_bridge",
                     [[
                         local function kjh_toggle()
                             TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
@@ -302,7 +302,7 @@ MachoMenuButton(EventTabSections[2], "Spawn Car", function()
 
     if CarName and CarName ~= "" then
         MachoInjectResourceRaw(
-            CheckResource("wasabi_bridge") and "wasabi_bridge" or
+            CheckResource("um-multicharacter") and "um-multicharacter" or
             CheckResource("lunar_bridge") and "lunar_bridge",
             [[
             local tYaPlXcUvBn = PlayerPedId
@@ -359,7 +359,7 @@ MachoMenuButton(EventTabSections[2], "Spawn Car", function()
 end)
 -- Common Exploits section: add Revive button
 MachoMenuButton(EventTabSections[3], "Revive", function()
-     MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+     MachoInjectResourceRaw( CheckResource("um-multicharacter") and "um-multicharacter" or CheckResource("lunar_bridge") and "lunar_bridge", [[
     TriggerEvent('wasabi_ambulance:revive')
     ]])
     MachoMenuNotification("[REVIVE]", "Revived")
@@ -367,7 +367,7 @@ end)
 MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
     -- Select a target resource
     local targetResource = nil
-    local resourcePriority = {"wasabi_bridge", "lunar_bridge"}
+    local resourcePriority = {"um-multicharacter", "lunar_bridge"}
     local foundResources = {}
 
     for _, resourceName in ipairs(resourcePriority) do
@@ -480,7 +480,7 @@ end)
 --SECTION OF DEV 
 MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
     MachoMenuNotification("No Clip", " Bypassed")
-   MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+   MachoInjectResourceRaw( CheckResource("um-multicharacter") and "um-multicharacter" or CheckResource("lunar_bridge") and "lunar_bridge", [[
    Citizen.CreateThread(function()
     -- try to get the export table once, but accept that it might appear later
     local waveShield = nil
@@ -540,7 +540,7 @@ MachoMenuButton(EventTabSections[4], "Freecam bypass (F5)", function()
     local devInput = MachoMenuGetInputbox(InputBoxUnderDev)
     if not devInput or devInput == "" then
 MachoMenuNotification("Enabled", " Press F5 to use" )
-      MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+      MachoInjectResourceRaw( CheckResource("um-multicharacter") and "um-multicharacter" or CheckResource("lunar_bridge") and "lunar_bridge", [[
       local freecam = {
     enabled = false,
     cam = nil,
@@ -767,11 +767,11 @@ end)
 end)
 -- Settings Tab
 MachoMenuButton(SettingTabSections[1], "Unload", function()
-    MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+    MachoInjectResourceRaw(CheckResource("um-multicharacter") and "um-multicharacter" or CheckResource("lunar_bridge") and "lunar_bridge", [[
         Unloaded = true
     ]])
 
-    MachoInjectResourceRaw((CheckResource("core") and "core") or (CheckResource("es_extended") and "es_extended") or (CheckResource("qb-core") and "qb-core") or (CheckResource("wasabi_bridge") and "wasabi_bridge"), [[
+    MachoInjectResourceRaw((CheckResource("core") and "core") or (CheckResource("es_extended") and "es_extended") or (CheckResource("qb-core") and "qb-core") or (CheckResource("um-multicharacter") and "um-multicharacter"), [[
         anvzBDyUbl = false
         if fLwYqKoXpRtB then fLwYqKoXpRtB() end
         kLpMnBvCxZqWeRt = false

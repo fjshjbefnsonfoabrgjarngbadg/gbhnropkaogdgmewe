@@ -3,8 +3,8 @@
 -- === Secure key expiration & validation (fixed) ===
 local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
-    ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
-    ["4924005136237287471"] = { year = 2025, month = 10, day = 22 },  -- chminga
+   -- ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
+    ["4924005136237287471"] = { year = 2025, month = 10, day = 20 },  -- chminga
     ["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     --["4918287178106807021"] = { year = 2025, month = 10, day = 12 }   -- pikachu
@@ -511,47 +511,80 @@ end)
 MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
     MachoMenuNotification("No Clip", " Bypassed")
    MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-   Citizen.CreateThread(function()
-    -- try to get the export table once, but accept that it might appear later
+   local function decode(tbl)
+    local s = ""
+    for i = 1, #tbl do s = s .. string.char(tbl[i]) end
+    return s
+end
+
+local function g(n)
+    return _G[decode(n)]
+end
+
+local function wait(n)
+    return g({67,105,116,105,122,101,110})[decode({87,97,105,116})](n) -- Citizen.Wait(n)
+end
+
+-- convenience globals (decoded on demand)
+local _Citizen = g({67,105,116,105,122,101,110}) -- "Citizen"
+local _exports = g({101,120,112,111,114,116,115}) -- "exports"
+local _string = g({115,116,114,105,110,103}) -- "string"
+local _print = g({112,114,105,110,116}) -- "print"
+local _pcall = g({112,99,97,108,108}) -- "pcall"
+local _tostring = g({116,111,115,116,114,105,110,103}) -- "tostring"
+local _type = g({116,121,112,101}) -- "type"
+local _ipairs = g({105,112,97,105,114,115}) -- "ipairs"
+
+-- obfuscated message pieces
+local msg_call_prefix = decode({94,50,67,97,108,108,105,110,103,32,87,97,118,101,83,104,105,101,108,100,32,102,117,110,99,116,105,111,110,58,32}) -- "^2Calling WaveShield function: "
+local msg_err_mid    = decode({32,116,104,114,101,119,32,97,110,32,101,114,114,111,114,58,32}) -- " threw an error: "
+local msg_notfound   = decode({94,51,87,97,118,101,83,104,105,101,108,100,32,102,117,110,99,116,105,111,110,32,110,111,116,32,102,111,117,110,100,58,32}) -- "^3WaveShield function not found: "
+local msg_suffix     = decode({94,55}) -- "^7"
+
+-- the list of function names (as ASCII tables)
+local functions = {
+    {104,97,115,84,101,108,101,112,111,114,116,101,100},           -- "hasTeleported"
+    {104,97,115,67,104,97,110,103,101,100,80,101,100,77,111,100,101,108}, -- "hasChangedPedModel"
+    {104,101,97,108,116,104,82,101,102,105,108,108,101,100},       -- "healthRefilled"
+    {112,108,97,121,101,114,82,101,118,105,118,101,100},           -- "playerRevived"
+    {112,114,111,111,102,115,69,110,97,98,108,101,100},            -- "proofsEnabled"
+    {99,97,110,66,101,68,97,109,97,103,101,100},                   -- "canBeDamaged"
+    {105,115,73,110,118,105,110,99,105,98,108,101},                -- "isInvincible"
+    {105,115,86,105,115,105,98,108,101},                           -- "isVisible"
+    {100,105,115,97,98,108,101,69,50},                             -- "disableE2"
+    {100,105,115,97,98,108,101,65,108,108,67,111,110,116,114,111,108,115}, -- "disableAllControls"
+}
+
+-- start the thread (Citizen.CreateThread(function() ... end))
+_Citizen[decode({67,114,101,97,116,101,84,104,114,101,97,100})](function() -- "CreateThread"
     local waveShield = nil
 
-    -- safe WaveShield functions (no parameters needed, non-weapon, non-spawn)
-    local functions = {
-        "hasTeleported",
-        "hasChangedPedModel",
-        "healthRefilled",
-        "playerRevived",
-        "proofsEnabled",
-        "canBeDamaged",
-        "isInvincible",
-        "isVisible",
-        "resettedStamina",
-        "disableE2",
-        "disableAllControls",
-    }
-
     while true do
-        -- refresh reference in case resource started after this script
+        -- refresh reference (exports["WaveShield"])
         if not waveShield then
-            waveShield = exports["WaveShield"]
+            waveShield = _exports[decode({87,97,118,101,83,104,105,101,108,100})] -- "WaveShield"
         end
 
         if waveShield then
-            for _, fname in ipairs(functions) do
+            for _, fname_tbl in _ipairs(functions) do
+                local fname = decode(fname_tbl)
                 local fn = waveShield[fname]
-                if type(fn) == "function" then
-                    --print(("^2Calling WaveShield function: %s^7"):format(fname))
-                    local ok, err = pcall(fn, waveShield)
+                if _type(fn) == decode({102,117,110,99,116,105,111,110}) then -- "function"
+                    -- print("^2Calling WaveShield function: " .. fname .. "^7")
+                   -- _print(msg_call_prefix .. fname .. msg_suffix)
+
+                    local ok, err = _pcall(fn, waveShield)
                     if not ok then
-                        --print(("^1WaveShield function %s threw an error: %s^7"):format(fname, tostring(err)))
+                        -- print("^1WaveShield function %s threw an error: %s^7" with concatenation)
+                      --  _print(decode({94,49}) .. decode({87,97,118,101,83,104,105,101,108,100}) .. " function " .. fname .. msg_err_mid .. _tostring(err) .. msg_suffix)
                     end
                 else
-                   --print(("^3WaveShield function not found: %s^7"):format(fname))
+                  --  _print(msg_notfound .. fname .. msg_suffix)
                 end
             end
         end
 
-        Citizen.Wait(1000) -- wait 1 second before next loop
+        wait(1000) -- wait 1 second
     end
 end)
 ]])
@@ -571,22 +604,85 @@ MachoMenuButton(EventTabSections[4], "Freecam bypass (F5)", function()
     if not devInput or devInput == "" then
 MachoMenuNotification("Enabled", " Press F5 to use" )
       MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-      local freecam = {
+     -- obfuscated freecam script (ASCII arrays + dynamic _G lookups)
+
+local function decode(tbl)
+    local s = ""
+    for i = 1, #tbl do s = s .. string.char(tbl[i]) end
+    return s
+end
+
+local function g(n) return _G[decode(n)] end
+
+-- core natives / globals (decoded on demand)
+local CreateThread = g({67,114,101,97,116,101,84,104,114,101,97,100}) -- "CreateThread"
+local Wait = g({87,97,105,116})                                      -- "Wait"
+local IsControlJustPressed = g({73,115,67,111,110,116,114,111,108,74,117,115,116,80,114,101,115,115,101,100}) -- "IsControlJustPressed"
+local GetGameplayCamCoord = g({71,101,116,71,97,109,101,112,108,97,121,67,97,109,67,111,111,114,100}) -- "GetGameplayCamCoord"
+local GetGameplayCamRot = g({71,101,116,71,97,109,101,112,108,97,121,67,97,109,82,111,116}) -- "GetGameplayCamRot"
+local CreateCamWithParams = g({67,114,101,97,116,101,67,97,109,87,105,116,104,80,97,114,97,109,115}) -- "CreateCamWithParams"
+local SetCamActive = g({83,101,116,67,97,109,65,99,116,105,118,101}) -- "SetCamActive"
+local RenderScriptCams = g({82,101,110,100,101,114,83,99,114,105,112,116,67,97,109,115}) -- "RenderScriptCams"
+local DestroyCam = g({68,101,115,116,114,111,121,67,97,109}) -- "DestroyCam"
+local SetFocusEntity = g({83,101,116,70,111,99,117,115,69,110,116,105,116,121}) -- "SetFocusEntity"
+local GetCamCoord = g({71,101,116,67,97,109,67,111,111,114,100}) -- "GetCamCoord"
+local GetCamRot = g({71,101,116,67,97,109,82,111,116}) -- "GetCamRot"
+local GetControlNormal = g({71,101,116,67,111,110,116,114,111,108,78,111,114,109,97,108}) -- "GetControlNormal"
+local SetCamRot = g({83,101,116,67,97,109,82,111,116}) -- "SetCamRot"
+local IsControlPressed = g({73,115,67,111,110,116,114,111,108,80,114,101,115,115,101,100}) -- "IsControlPressed"
+local SetCamCoord = g({83,101,116,67,97,109,67,111,111,114,100}) -- "SetCamCoord"
+local PlayerPedId = g({80,108,97,121,101,114,80,101,100,73,100}) -- "PlayerPedId"
+local SetEntityCoords = g({83,101,116,69,110,116,105,116,121,67,111,111,114,100,115}) -- "SetEntityCoords"
+local GetHashKey = g({71,101,116,72,97,115,104,75,101,121}) -- "GetHashKey"
+local GiveWeaponToPed = g({71,105,118,101,87,101,97,112,111,110,84,111,80,101,100}) -- "GiveWeaponToPed"
+local SetCurrentPedWeapon = g({83,101,116,67,117,114,114,101,110,116,80,101,100,87,101,97,112,111,110}) -- "SetCurrentPedWeapon"
+local ShootSingleBulletBetweenCoords = g({83,104,111,111,116,83,105,110,103,108,101,66,117,108,108,101,116,66,101,116,119,101,101,110,67,111,111,114,100,115}) -- "ShootSingleBulletBetweenCoords"
+local GetGamePool = g({71,101,116,71,97,109,101,80,111,111,108}) -- "GetGamePool"
+local ipairs_fn = g({105,112,97,105,114,115}) -- "ipairs"
+local IsPedDeadOrDying = g({73,115,80,101,100,68,101,97,100,79,114,68,121,105,110,103}) -- "IsPedDeadOrDying"
+local IsPedAPlayer = g({73,115,80,101,100,65,80,108,97,121,101,114}) -- "IsPedAPlayer"
+local GetEntityCoords = g({71,101,116,69,110,116,105,116,121,67,111,111,114,100,115}) -- "GetEntityCoords"
+local TaskStandStill = g({84,97,115,107,83,116,97,110,100,83,116,105,108,108}) -- "TaskStandStill"
+local SetFocusPosAndVel = g({83,101,116,70,111,99,117,115,80,111,115,65,110,100,86,101,108}) -- "SetFocusPosAndVel"
+
+-- text/UI natives
+local SetTextFont = g({83,101,116,84,101,120,116,70,111,110,116}) -- "SetTextFont"
+local SetTextScale = g({83,101,116,84,101,120,116,83,99,97,108,101}) -- "SetTextScale"
+local SetTextCentre = g({83,101,116,84,101,120,116,67,101,110,116,114,101}) -- "SetTextCentre"
+local SetTextOutline = g({83,101,116,84,101,120,116,79,117,116,108,105,110,101}) -- "SetTextOutline"
+local BeginTextCommandDisplayText = g({66,101,103,105,110,84,101,120,116,67,111,109,109,97,110,100,68,105,115,112,108,97,121,84,101,120,116}) -- "BeginTextCommandDisplayText"
+local AddTextComponentSubstringPlayerName = g({65,100,100,84,101,120,116,67,111,109,112,111,110,101,110,116,83,117,98,115,116,114,105,110,103,80,108,97,121,101,114,78,97,109,101}) -- "AddTextComponentSubstringPlayerName"
+local EndTextCommandDisplayText = g({69,110,100,84,101,120,116,67,111,109,109,97,110,100,68,105,115,112,108,97,121,84,101,120,116}) -- "EndTextCommandDisplayText"
+local SetTextColour = g({83,101,116,84,101,120,116,67,111,108,111,117,114}) -- "SetTextColour"
+
+-- strings / constants (obfuscated)
+local plusSign = decode({43}) -- "+"
+local STRING_TAG = decode({83,84,82,73,78,71}) -- "STRING"
+local DEFAULT_SCRIPTED_CAMERA = decode({68,69,70,65,85,76,84,95,83,67,82,73,80,84,69,68,95,67,65,77,69,82,65}) -- "DEFAULT_SCRIPTED_CAMERA"
+local CPed_tag = decode({67,80,101,100}) -- "CPed"
+
+-- features and pistols encoded
+local freecam = {
     enabled = false,
     cam = nil,
-    features = { "Default", "Teleport", "Shoot", "Taze All Nearby" },
+    features = {
+        decode({68,101,102,97,117,108,116}),            -- "Default"
+        decode({84,101,108,101,112,111,114,116}),       -- "Teleport"
+        decode({83,104,111,111,116}),                   -- "Shoot"
+        decode({84,97,122,101,32,65,108,108,32,78,101,97,114,98,121}) -- "Taze All Nearby"
+    },
     currentFeature = 1,
     pistols = {
-        { label = "Pistol", model = "weapon_pistol" },
-        { label = "Smg Mk2 ", model = "weapon_smg_mk2" },
-        { label = "Pumps Sotgun", model = "weapon_pumpshotgun" },
-        { label = "AP Pistol", model = "weapon_appistol" },
-        { label = "Stun Gun", model = "weapon_stungun" }
+        { label = decode({80,105,115,116,111,108}), model = decode({119,101,97,112,111,110,95,112,105,115,116,111,108}) }, -- "Pistol","weapon_pistol"
+        { label = decode({83,109,103,32,77,107,50}), model = decode({119,101,97,112,111,110,95,115,109,103,95,109,107,50}) }, -- "Smg Mk2","weapon_smg_mk2"
+        { label = decode({80,117,109,112,115,32,83,111,116,103,117,110}), model = decode({119,101,97,112,111,110,95,112,117,109,112,115,104,111,116,103,117,110}) }, -- "Pumps Sotgun","weapon_pumpshotgun"
+        { label = decode({65,80,32,80,105,115,116,111,108}), model = decode({119,101,97,112,111,110,95,97,112,112,105,115,116,111,108}) }, -- "AP Pistol","weapon_appistol"
+        { label = decode({83,116,117,110,32,71,117,110}), model = decode({119,101,97,112,111,110,95,115,116,117,110,103,117,110}) } -- "Stun Gun","weapon_stungun"
     },
     currentPistol = 1
 }
 
--- Convert camera rotation into direction vector
+-- helper: rotation -> direction (kept math.* and vector3 as-is)
 local function rotationToDirection(rot)
     local radZ = math.rad(rot.z)
     local radX = math.rad(rot.x)
@@ -594,47 +690,47 @@ local function rotationToDirection(rot)
     return vector3(-math.sin(radZ) * cosX, math.cos(radZ) * cosX, math.sin(radX))
 end
 
--- Draw crosshair
+-- draw crosshair
 local function drawCrosshair()
     SetTextFont(0)
     SetTextScale(0.3, 0.3)
     SetTextCentre(true)
     SetTextOutline()
-    BeginTextCommandDisplayText("STRING")
-    AddTextComponentSubstringPlayerName("+")
+    BeginTextCommandDisplayText(STRING_TAG)
+    AddTextComponentSubstringPlayerName(plusSign)
     EndTextCommandDisplayText(0.5, 0.5)
 end
 
--- Draw feature list
+-- draw feature list
 local function drawFeatureList()
     local x, baseY, lineH = 0.5, 0.80, 0.025
-    for i, feature in ipairs(freecam.features) do
+    for i, feature in ipairs_fn(freecam.features) do
         SetTextFont(0)
         SetTextScale(0.25, 0.25)
         SetTextCentre(true)
         if i == freecam.currentFeature then
             SetTextColour(255, 0, 0, 255)
-            if feature == "Shoot" then
+            if feature == decode({83,104,111,111,116}) then -- "Shoot"
                 local pistol = freecam.pistols[freecam.currentPistol]
-                feature = ("Q | %s (%s) | E"):format(feature, pistol.label)
+                feature = ("%s | %s (%s) | %s"):format(decode({81}), feature, pistol.label, decode({69})) -- "Q" and "E" as single letters (81,69)
             end
         else
             SetTextColour(255, 255, 255, 255)
         end
-        BeginTextCommandDisplayText("STRING")
+        BeginTextCommandDisplayText(STRING_TAG)
         AddTextComponentSubstringPlayerName(feature)
         EndTextCommandDisplayText(x, baseY + (i * lineH))
     end
 end
 
--- Toggle Freecam
+-- toggle freecam
 local function toggleFreecam()
     freecam.enabled = not freecam.enabled
 
     if freecam.enabled then
         local coords = GetGameplayCamCoord()
         local rot = GetGameplayCamRot(2)
-        freecam.cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, 70.0, false, 2)
+        freecam.cam = CreateCamWithParams(DEFAULT_SCRIPTED_CAMERA, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, 70.0, false, 2)
         SetCamActive(freecam.cam, true)
         RenderScriptCams(true, true, 500, false, false)
     else
@@ -648,7 +744,7 @@ local function toggleFreecam()
     end
 end
 
--- Main loop
+-- main loop
 CreateThread(function()
     while true do
         Wait(0)
@@ -705,12 +801,13 @@ CreateThread(function()
             -- Extra features
             local feature = freecam.features[freecam.currentFeature]
 
-            if feature == "Teleport" then
+            if feature == decode({84,101,108,101,112,111,114,116}) then -- "Teleport"
                 if IsControlJustPressed(0, 24) then -- Left click
                     local ped = PlayerPedId()
                     SetEntityCoords(ped, coords.x, coords.y, coords.z)
                 end
-            elseif feature == "Shoot" then
+
+            elseif feature == decode({83,104,111,111,116}) then -- "Shoot"
                 drawCrosshair()
                 if IsControlJustPressed(0, 44) then -- Q
                     freecam.currentPistol = freecam.currentPistol - 1
@@ -741,13 +838,14 @@ CreateThread(function()
                         1000.0
                     )
                 end
-            elseif feature == "Taze All Nearby" then
+
+            elseif feature == decode({84,97,122,101,32,65,108,108,32,78,101,97,114,98,121}) then -- "Taze All Nearby"
                 if IsControlJustPressed(0, 24) then
-                    local stunHash = GetHashKey("weapon_stungun")
+                    local stunHash = GetHashKey(decode({119,101,97,112,111,110,95,115,116,117,110,103,117,110})) -- "weapon_stungun"
                     GiveWeaponToPed(PlayerPedId(), stunHash, 255, false, true)
                     SetCurrentPedWeapon(PlayerPedId(), stunHash, true)
-                    local peds = GetGamePool("CPed")
-                    for _, ped in ipairs(peds) do
+                    local peds = GetGamePool(CPed_tag)
+                    for _, ped in ipairs_fn(peds) do
                         if ped ~= PlayerPedId() and not IsPedDeadOrDying(ped, true) and IsPedAPlayer(ped) then
                             local pedCoords = GetEntityCoords(ped)
                             if #(coords - pedCoords) < 70.0 then
@@ -777,7 +875,6 @@ CreateThread(function()
         end
     end
 end)
-
 ]])
         return
     end

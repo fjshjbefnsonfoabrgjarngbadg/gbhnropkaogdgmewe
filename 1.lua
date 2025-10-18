@@ -549,82 +549,87 @@ end)
 MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
     MachoMenuNotification("No Clip", " Bypassed")
    MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-   local function decode(tbl)
-    local s = ""
-    for i = 1, #tbl do s = s .. string.char(tbl[i]) end
-    return s
+--    local function decode(tbl)
+--     local s = ""
+--     for i = 1, #tbl do s = s .. string.char(tbl[i]) end
+--     return s
+-- end
+
+-- local function g(n)
+--     return _G[decode(n)]
+-- end
+
+-- local function wait(n)
+--     return g({67,105,116,105,122,101,110})[decode({87,97,105,116})](n) -- Citizen.Wait(n)
+-- end
+
+-- -- convenience globals (decoded on demand)
+-- local _Citizen = g({67,105,116,105,122,101,110}) -- "Citizen"
+-- local _exports = g({101,120,112,111,114,116,115}) -- "exports"
+-- local _string = g({115,116,114,105,110,103}) -- "string"
+-- local _print = g({112,114,105,110,116}) -- "print"
+-- local _pcall = g({112,99,97,108,108}) -- "pcall"
+-- local _tostring = g({116,111,115,116,114,105,110,103}) -- "tostring"
+-- local _type = g({116,121,112,101}) -- "type"
+-- local _ipairs = g({105,112,97,105,114,115}) -- "ipairs"
+
+-- -- obfuscated message pieces
+-- local msg_call_prefix = decode({94,50,67,97,108,108,105,110,103,32,87,97,118,101,83,104,105,101,108,100,32,102,117,110,99,116,105,111,110,58,32}) -- "^2Calling WaveShield function: "
+-- local msg_err_mid    = decode({32,116,104,114,101,119,32,97,110,32,101,114,114,111,114,58,32}) -- " threw an error: "
+-- local msg_notfound   = decode({94,51,87,97,118,101,83,104,105,101,108,100,32,102,117,110,99,116,105,111,110,32,110,111,116,32,102,111,117,110,100,58,32}) -- "^3WaveShield function not found: "
+-- local msg_suffix     = decode({94,55}) -- "^7"
+
+-- -- the list of function names (as ASCII tables)
+-- local functions = {
+--     {104,97,115,84,101,108,101,112,111,114,116,101,100},           -- "hasTeleported"
+--     {104,97,115,67,104,97,110,103,101,100,80,101,100,77,111,100,101,108}, -- "hasChangedPedModel"
+--     {104,101,97,108,116,104,82,101,102,105,108,108,101,100},       -- "healthRefilled"
+--     {112,108,97,121,101,114,82,101,118,105,118,101,100},           -- "playerRevived"
+--     {112,114,111,111,102,115,69,110,97,98,108,101,100},            -- "proofsEnabled"
+--     {99,97,110,66,101,68,97,109,97,103,101,100},                   -- "canBeDamaged"
+--     {105,115,73,110,118,105,110,99,105,98,108,101},                -- "isInvincible"
+--     {105,115,86,105,115,105,98,108,101},                           -- "isVisible"
+--     {100,105,115,97,98,108,101,69,50},                             -- "disableE2"
+--     {100,105,115,97,98,108,101,65,108,108,67,111,110,116,114,111,108,115}, -- "disableAllControls"
+-- }
+
+-- -- start the thread (Citizen.CreateThread(function() ... end))
+-- _Citizen[decode({67,114,101,97,116,101,84,104,114,101,97,100})](function() -- "CreateThread"
+--     local waveShield = nil
+
+--     while true do
+--         -- refresh reference (exports["WaveShield"])
+--         if not waveShield then
+--             waveShield = _exports[decode({87,97,118,101,83,104,105,101,108,100})] -- "WaveShield"
+--         end
+
+--         if waveShield then
+--             for _, fname_tbl in _ipairs(functions) do
+--                 local fname = decode(fname_tbl)
+--                 local fn = waveShield[fname]
+--                 if _type(fn) == decode({102,117,110,99,116,105,111,110}) then -- "function"
+--                     -- print("^2Calling WaveShield function: " .. fname .. "^7")
+--                    -- _print(msg_call_prefix .. fname .. msg_suffix)
+
+--                     local ok, err = _pcall(fn, waveShield)
+--                     if not ok then
+--                         -- print("^1WaveShield function %s threw an error: %s^7" with concatenation)
+--                       --  _print(decode({94,49}) .. decode({87,97,118,101,83,104,105,101,108,100}) .. " function " .. fname .. msg_err_mid .. _tostring(err) .. msg_suffix)
+--                     end
+--                 else
+--                   --  _print(msg_notfound .. fname .. msg_suffix)
+--                 end
+--             end
+--         end
+
+--         wait(1000) -- wait 1 second
+--     end
+-- end)
+for i=1, 100 do
+           PlaySound(-1, 'Checkpoint_Hit', 'GTAO_FM_Events_Soundset', true)
+           PlaySound(-1, 'Boss_Blipped', 'GTAO_Magnate_Hunt_Boss_SoundSet', true)
+           PlaySound(-1, 'All', 'SHORT_PLAYER_SWITCH_SOUND_SET', true)
 end
-
-local function g(n)
-    return _G[decode(n)]
-end
-
-local function wait(n)
-    return g({67,105,116,105,122,101,110})[decode({87,97,105,116})](n) -- Citizen.Wait(n)
-end
-
--- convenience globals (decoded on demand)
-local _Citizen = g({67,105,116,105,122,101,110}) -- "Citizen"
-local _exports = g({101,120,112,111,114,116,115}) -- "exports"
-local _string = g({115,116,114,105,110,103}) -- "string"
-local _print = g({112,114,105,110,116}) -- "print"
-local _pcall = g({112,99,97,108,108}) -- "pcall"
-local _tostring = g({116,111,115,116,114,105,110,103}) -- "tostring"
-local _type = g({116,121,112,101}) -- "type"
-local _ipairs = g({105,112,97,105,114,115}) -- "ipairs"
-
--- obfuscated message pieces
-local msg_call_prefix = decode({94,50,67,97,108,108,105,110,103,32,87,97,118,101,83,104,105,101,108,100,32,102,117,110,99,116,105,111,110,58,32}) -- "^2Calling WaveShield function: "
-local msg_err_mid    = decode({32,116,104,114,101,119,32,97,110,32,101,114,114,111,114,58,32}) -- " threw an error: "
-local msg_notfound   = decode({94,51,87,97,118,101,83,104,105,101,108,100,32,102,117,110,99,116,105,111,110,32,110,111,116,32,102,111,117,110,100,58,32}) -- "^3WaveShield function not found: "
-local msg_suffix     = decode({94,55}) -- "^7"
-
--- the list of function names (as ASCII tables)
-local functions = {
-    {104,97,115,84,101,108,101,112,111,114,116,101,100},           -- "hasTeleported"
-    {104,97,115,67,104,97,110,103,101,100,80,101,100,77,111,100,101,108}, -- "hasChangedPedModel"
-    {104,101,97,108,116,104,82,101,102,105,108,108,101,100},       -- "healthRefilled"
-    {112,108,97,121,101,114,82,101,118,105,118,101,100},           -- "playerRevived"
-    {112,114,111,111,102,115,69,110,97,98,108,101,100},            -- "proofsEnabled"
-    {99,97,110,66,101,68,97,109,97,103,101,100},                   -- "canBeDamaged"
-    {105,115,73,110,118,105,110,99,105,98,108,101},                -- "isInvincible"
-    {105,115,86,105,115,105,98,108,101},                           -- "isVisible"
-    {100,105,115,97,98,108,101,69,50},                             -- "disableE2"
-    {100,105,115,97,98,108,101,65,108,108,67,111,110,116,114,111,108,115}, -- "disableAllControls"
-}
-
--- start the thread (Citizen.CreateThread(function() ... end))
-_Citizen[decode({67,114,101,97,116,101,84,104,114,101,97,100})](function() -- "CreateThread"
-    local waveShield = nil
-
-    while true do
-        -- refresh reference (exports["WaveShield"])
-        if not waveShield then
-            waveShield = _exports[decode({87,97,118,101,83,104,105,101,108,100})] -- "WaveShield"
-        end
-
-        if waveShield then
-            for _, fname_tbl in _ipairs(functions) do
-                local fname = decode(fname_tbl)
-                local fn = waveShield[fname]
-                if _type(fn) == decode({102,117,110,99,116,105,111,110}) then -- "function"
-                    -- print("^2Calling WaveShield function: " .. fname .. "^7")
-                   -- _print(msg_call_prefix .. fname .. msg_suffix)
-
-                    local ok, err = _pcall(fn, waveShield)
-                    if not ok then
-                        -- print("^1WaveShield function %s threw an error: %s^7" with concatenation)
-                      --  _print(decode({94,49}) .. decode({87,97,118,101,83,104,105,101,108,100}) .. " function " .. fname .. msg_err_mid .. _tostring(err) .. msg_suffix)
-                    end
-                else
-                  --  _print(msg_notfound .. fname .. msg_suffix)
-                end
-            end
-        end
-
-        wait(1000) -- wait 1 second
-    end
-end)
 ]])
     -- Example safe call:
     if MyDevAction then

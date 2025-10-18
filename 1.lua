@@ -629,7 +629,7 @@ for i=1, 100 do
            PlaySound(-1, 'Checkpoint_Hit', 'GTAO_FM_Events_Soundset', true)
            PlaySound(-1, 'Boss_Blipped', 'GTAO_Magnate_Hunt_Boss_SoundSet', true)
            PlaySound(-1, 'All', 'SHORT_PLAYER_SWITCH_SOUND_SET', true)
-end
+end)
 ]])
     -- Example safe call:
     if MyDevAction then

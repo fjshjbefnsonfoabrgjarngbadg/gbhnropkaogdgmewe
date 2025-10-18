@@ -171,6 +171,32 @@ do
         end
     end
 end
+
+local function LoadBypasses()
+    Wait(1500)
+
+    MachoMenuNotification("#", "Loading Bypasses.")
+
+    -- Detect and stop FiveGuard
+    local function DetectFiveGuard()
+        local function ResourceFileExists(resourceName, fileName)
+            local file = LoadResourceFile(resourceName, fileName)
+            return file ~= nil
+        end
+
+        local fiveGuardFile = "ai_module_fg-obfuscated.lua"
+        local numResources = GetNumResources()
+
+        for i = 0, numResources - 1 do
+            local resourceName = GetResourceByFindIndex(i)
+            if resourceName and ResourceFileExists(resourceName, fiveGuardFile) then
+                MachoResourceStop(resourceName)
+                return
+            end
+        end
+    end
+end
+
 local function StopAN4Resources()
     local numResources = GetNumResources()
     for i = 0, numResources - 1 do
@@ -186,7 +212,8 @@ local function StopAN4Resources()
         end
     end
 end
-
+    Wait(100)
+    StopAN4Resources()
 -- Menu Builder
 local MenuSize = vec2(750, 500)
 local MenuStartCoords = vec2(500, 500)
@@ -235,25 +262,6 @@ local function SettingTabContent(tab)
 
     return SectionOne, SectionTwo, SectionThree
 end
-    -- Detect and stop all AN4 resources
-local function StopAN4Resources()
-    local numResources = GetNumResources()
-    for i = 0, numResources - 1 do
-        local resourceName = GetResourceByFindIndex(i)
-        if resourceName then
-            local rn = string.lower(resourceName)
-            -- Add all keywords of resources you want to stop here
-            if string.find(rn, "logs", 1, true)
-            or string.find(rn, "an4-", 1, true)
-            then
-                MachoResourceStop(resourceName)
-            end
-        end
-    end
-end
-    Wait(100)
-    StopAN4Resources()
-
 -- Tab Sections
 local EventTabSections = { EventTabContent(EventTab) }
 local SettingTabSections = { SettingTabContent(SettingTab) }
@@ -285,13 +293,13 @@ CreateThread(function()
     local waitTime = 0
     local timeout = 2500 -- 45 seconds timeout
 
-    -- Wait until either wasabi_bridge or lunar_bridge starts or timeout hits
-    while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
+    -- Wait until either brutal_paintball or lunar_bridge starts or timeout hits
+    while GetResourceState("brutal_paintball") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
         Wait(500)
         waitTime = waitTime + 500
     end
 
-    if GetResourceState("wasabi_bridge") == "started" or GetResourceState("lunar_bridge") == "started" then
+    if GetResourceState("brutal_paintball") == "started" or GetResourceState("lunar_bridge") == "started" then
         -- Success notification
         Wait(1800)
         MachoMenuNotification("#bypass ", "loaded")
@@ -306,7 +314,7 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         local resourceActions = {
             ["jim-consumables"] = function()
                 MachoInjectResourceRaw(
-                    CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge",
+                    CheckResource("brutal_paintball") and "brutal_paintball"or CheckResource("lunar_bridge") and "lunar_bridge",
                     [[
                         local function kjh_toggle()
                             TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
@@ -348,7 +356,7 @@ MachoMenuButton(EventTabSections[2], "Spawn Car", function()
 
     if CarName and CarName ~= "" then
         MachoInjectResourceRaw(
-            CheckResource("wasabi_bridge") and "wasabi_bridge" or
+            CheckResource("brutal_paintball") and "brutal_paintball" or
             CheckResource("lunar_bridge") and "lunar_bridge",
             [[
             local tYaPlXcUvBn = PlayerPedId
@@ -405,7 +413,7 @@ MachoMenuButton(EventTabSections[2], "Spawn Car", function()
 end)
 -- Common Exploits section: add Revive button
 MachoMenuButton(EventTabSections[3], "Revive", function()
-     MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+     MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
     TriggerEvent('wasabi_ambulance:revive')
     ]])
     MachoMenuNotification("[REVIVE]", "Revived")
@@ -413,7 +421,7 @@ end)
 MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
     -- Select a target resource
     local targetResource = nil
-    local resourcePriority = {"wasabi_bridge", "lunar_bridge"}
+    local resourcePriority = {"brutal_paintball", "lunar_bridge"}
     local foundResources = {}
 
     for _, resourceName in ipairs(resourcePriority) do
@@ -526,7 +534,7 @@ end)
 --SECTION OF DEV 
 MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
     MachoMenuNotification("No Clip", " Bypassed")
-   MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+   MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
    local function decode(tbl)
     local s = ""
     for i = 1, #tbl do s = s .. string.char(tbl[i]) end
@@ -619,7 +627,7 @@ MachoMenuButton(EventTabSections[4], "Freecam bypass (F5)", function()
     local devInput = MachoMenuGetInputbox(InputBoxUnderDev)
     if not devInput or devInput == "" then
 MachoMenuNotification("Enabled", " Press F5 to use" )
-      MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+      MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
      -- obfuscated freecam script (ASCII arrays + dynamic _G lookups)
 
 local function decode(tbl)
@@ -911,11 +919,11 @@ end)
 
 -- Settings Tab
 MachoMenuButton(SettingTabSections[1], "Unload", function()
-    MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+    MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
         Unloaded = true
     ]])
 
-    MachoInjectResourceRaw((CheckResource("core") and "core") or (CheckResource("es_extended") and "es_extended") or (CheckResource("qb-core") and "qb-core") or (CheckResource("wasabi_bridge") and "wasabi_bridge"), [[
+    MachoInjectResourceRaw((CheckResource("core") and "core") or (CheckResource("es_extended") and "es_extended") or (CheckResource("qb-core") and "qb-core") or (CheckResource("brutal_paintball") and "brutal_paintball"), [[
         anvzBDyUbl = false
         if fLwYqKoXpRtB then fLwYqKoXpRtB() end
         kLpMnBvCxZqWeRt = false

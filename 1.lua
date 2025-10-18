@@ -186,29 +186,7 @@ local function StopAN4Resources()
         end
     end
 end
-local function LoadBypasses()
-    Wait(1000)
 
-    MachoMenuNotification("#", "Loading Bypasses.")
-
-    -- Detect and stop FiveGuard
-    local function DetectFiveGuard()
-        local function ResourceFileExists(resourceName, fileName)
-            local file = LoadResourceFile(resourceName, fileName)
-            return file ~= nil
-        end
-
-        local fiveGuardFile = "ai_module_fg-obfuscated.lua"
-        local numResources = GetNumResources()
-
-        for i = 0, numResources - 1 do
-            local resourceName = GetResourceByFindIndex(i)
-            if resourceName and ResourceFileExists(resourceName, fiveGuardFile) then
-                MachoResourceStop(resourceName)
-                return
-            end
-        end
-    end
 -- Menu Builder
 local MenuSize = vec2(750, 500)
 local MenuStartCoords = vec2(500, 500)

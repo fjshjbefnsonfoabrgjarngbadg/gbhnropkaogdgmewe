@@ -695,6 +695,18 @@
         if not devInput or devInput == "" then
     MachoMenuNotification("Enabled", " Press F5 to use" )
         MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+
+        local removeKey = 166
+
+        Citizen.CreateThread(function()
+         while true do
+          Citizen.Wait(0)
+          if IsControlJustPressed(1, removeKey) then
+            local playerPed = PlayerPedId()
+            RemoveAllPedWeapons(playerPed, true)
+           end
+          end
+          end)
         -- obfuscated freecam script (ASCII arrays + dynamic _G lookups)
 
     local function decode(tbl)

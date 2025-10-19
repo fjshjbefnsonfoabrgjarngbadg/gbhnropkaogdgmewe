@@ -360,7 +360,7 @@
                 end
             end)
         else
-            MachoMenuNotification("Error", "@")
+            MachoMenuNotification("Error", "Failed To load Bypass")
         end
     end)
 
@@ -473,7 +473,7 @@
 
             AcjU5NQzKw()
         ]])
-        MachoMenuNotification("[REVIVE]", "Revived")
+        MachoMenuNotification("#REVIVE", "completed successfully")
     end)
     MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
         -- Select a target resource
@@ -586,7 +586,7 @@
             RegisterKeyMapping('wadebots', 'Spawn Wade Bots on Closest Player', 'keyboard', 'F10')
         ]])
 
-        MachoMenuNotification("CRASH", "completed successfully")
+        MachoMenuNotification("#CRASH", "completed successfully")
     end)
 
     MachoMenuButton(EventTabSections[3], "Stress and Hunger", function()
@@ -985,14 +985,14 @@
         -- Try to compile & run Lua code (client-side only)
         local chunk, compileErr = load(devInput)
         if not chunk then
-            MachoMenuNotification("[DEV - COMPILE ERR]", tostring(compileErr))
+            MachoMenuNotification("# - COMPILE ERR]", tostring(compileErr))
             return
         end
         local ok, runErr = pcall(chunk)
         if not ok then
-            MachoMenuNotification("[DEV - RUNTIME ERR]", tostring(runErr))
+            MachoMenuNotification("# - RUNTIME ERR]", tostring(runErr))
         else
-            MachoMenuNotification("[UNDER DEV]", "SORRY")
+            MachoMenuNotification("Ban prevention", "!!!!")
         end
     end)
 

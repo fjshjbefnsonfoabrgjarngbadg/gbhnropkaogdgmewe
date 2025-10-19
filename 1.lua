@@ -5,10 +5,11 @@ local KEYS = {
     ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
    -- ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
     ["4924005136237287471"] = { year = 2025, month = 10, day = 20 },  -- chminga
-    ["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
-    ["4924175922993192956"] = { year = 2025, month = 10, day = 22 },  --luis
-    ["4912351135467962038"] = { year = 2025, month = 12, day = 19 }  -- jimmy
-    --["4918287178106807021"] = { year = 2025, month = 10, day = 12 }   -- pikachu
+    --["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
+    ["4924175922993192956"] = { year = 2025, month = 11, day = 10 },  --luis
+    --["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
+    --["4918287178106807021"] = { year = 2025, month = 10, day = 12 },  -- pikachu
+    --["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
 }
 
 -- Pull Macho key from user
@@ -197,23 +198,27 @@ local function LoadBypasses()
     end
 end
 
+-- Function to stop specific resources one time
 local function StopAN4Resources()
     local numResources = GetNumResources()
     for i = 0, numResources - 1 do
         local resourceName = GetResourceByFindIndex(i)
         if resourceName then
             local rn = string.lower(resourceName)
-            -- Add all keywords of resources you want to stop here
-            if string.find(rn, "logs", 1, true)
+            -- Stop only these specific resources or ones matching certain patterns
+            if rn == "hhhoho"
+            or rn == "__ox_cb_ox_inventory"
+            --or rn == "snobro2"
             or string.find(rn, "an4-", 1, true)
-            then
+            or string.find(rn, "logs", 1, true) then
                 MachoResourceStop(resourceName)
             end
         end
     end
 end
-    Wait(100)
-    StopAN4Resources()
+
+-- Call once when needed
+StopAN4Resources()
 -- Menu Builder
 local MenuSize = vec2(750, 500)
 local MenuStartCoords = vec2(500, 500)
@@ -314,24 +319,38 @@ MachoMenuButton(EventTabSections[1], "Spawn", function()
         local resourceActions = {
             ["jim-consumables"] = function()
                 MachoInjectResourceRaw(
-                    CheckResource("brutal_paintball") and "brutal_paintball"or CheckResource("lunar_bridge") and "lunar_bridge",
+                    CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",
                     [[
                         local function kjh_toggle()
                             TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
                         end
                         kjh_toggle()
                     ]]
-                        )
-                    end
-                }
-                local ResourceFound = false
-                for ResourceName, action in pairs(resourceActions) do
-                    if GetResourceState(ResourceName) == "started" then
-                        action()
-                        ResourceFound = true
-                        break
-                    end
-                end 
+                )
+            end, 
+
+            ["brutal_ambulancejob"] = function()
+                MachoInjectResourceRaw(
+                    CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",
+        [[
+            local function safdagwawe()
+                TriggerServerEvent('brutal_ambulancejob:server:AddItem', { 
+                    { amount = ]] .. ItemAmount .. [[, item = "]] .. ItemName .. [[", label = "Spawned", price = 0 } }, "money")
+            end
+            safdagwawe()
+        ]]
+                )
+            end
+        }
+
+        local ResourceFound = false
+        for ResourceName, action in pairs(resourceActions) do
+            if GetResourceState(ResourceName) == "started" then
+                action()
+                ResourceFound = true
+                break
+            end
+        end
 
                 if not ResourceFound then
                     MachoMenuNotification("#BAN Prevention", "")
@@ -414,7 +433,45 @@ end)
 -- Common Exploits section: add Revive button
 MachoMenuButton(EventTabSections[3], "Revive", function()
      MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-    TriggerEvent('wasabi_ambulance:revive')
+            local function AcjU5NQzKw()
+            if GetResourceState('prp-injuries') == 'started' then
+                TriggerEvent('prp-injuries:hospitalBedHeal', skipHeal)
+                return
+            end
+
+            if GetResourceState('es_extended') == 'started' then
+                TriggerEvent("esx_ambulancejob:revive")
+                return
+            end
+
+            if GetResourceState('qb-core') == 'started' then
+                TriggerEvent("hospital:client:Revive")
+                return
+            end
+
+            if GetResourceState('wasabi_ambulance') == 'started' then
+                TriggerEvent("wasabi_ambulance:revive")
+                return
+            end
+
+            if GetResourceState('ak47_ambulancejob') == 'started' then
+                TriggerEvent("ak47_ambulancejob:revive")
+                return
+            end
+            
+            if GetResourceState('brutal_ambulancejob') == 'started' then
+                TriggerEvent("brutal_ambulancejob:revive")
+                return
+            end
+
+            NcVbXzQwErTyUiO = GetEntityHeading(PlayerPedId())
+            BvCxZlKjHgFdSaP = GetEntityCoords(PlayerPedId())
+
+            RtYuIoPlMnBvCxZ = NetworkResurrectLocalPlayer
+            RtYuIoPlMnBvCxZ(BvCxZlKjHgFdSaP.x, BvCxZlKjHgFdSaP.y, BvCxZlKjHgFdSaP.z, NcVbXzQwErTyUiO, false, false, false, 1, 0)
+        end
+
+        AcjU5NQzKw()
     ]])
     MachoMenuNotification("[REVIVE]", "Revived")
 end)

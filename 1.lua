@@ -1,177 +1,207 @@
-    --- V2.1
-    ---- SNOBRO strict time-check + key check (multi-key version)
-    -- === Secure key expiration & validation (fixed) ===
-    local KEYS = {
-        ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
+local KEYS = {
+    ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
     -- ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
-        ["4924005136237287471"] = { year = 2025, month = 10, day = 20 },  -- chminga
-        --["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
-        ["4924175922993192956"] = { year = 2025, month = 11, day = 10 },  --luis
-        --["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
-        --["4918287178106807021"] = { year = 2025, month = 10, day = 12 },  -- pikachu
-        ["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
-    }
+    ["4924005136237287471"] = { year = 2025, month = 10, day = 20 },  -- chminga
+    --["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
+    ["4924175922993192956"] = { year = 2025, month = 11, day = 10 },  -- luis
+    --["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
+    --["4918287178106807021"] = { year = 2025, month = 10, day = 12 },  -- pikachu
+    --["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
+}
 
-    -- Pull Macho key from user
-    local local_key = ""
-    if type(MachoAuthenticationKey) == "function" then
-        local ok, val = pcall(MachoAuthenticationKey)
-        if ok and val then local_key = tostring(val) end
+------------------------------------------------------
+-- Pull Macho key from user
+------------------------------------------------------
+local local_key = ""
+if type(MachoAuthenticationKey) == "function" then
+    local ok, val = pcall(MachoAuthenticationKey)
+    if ok and val then local_key = tostring(val) end
+end
+
+------------------------------------------------------
+-- Validate key
+------------------------------------------------------
+local key_info = KEYS[local_key]
+if not key_info then
+    if type(MachoMenuNotification) == "function" then
+        MachoMenuNotification("# error", "Invalid key")
     end
 
-    -- Validate key
-    local key_info = KEYS[local_key]
-    if not key_info then
-        if type(MachoMenuNotification) == "function" then
-            MachoMenuNotification("# error", "Invalid key")
+    -- Wait 2 seconds then kick the player from the server
+    if type(Citizen) == "table" and type(Citizen.CreateThread) == "function" then
+        Citizen.CreateThread(function()
+            Citizen.Wait(1000)
+            -- Try to drop the player if on server-side
+            if type(DropPlayer) == "function" then
+                -- source is the current player's ID in server-side context
+                if type(source) ~= "nil" then
+                    DropPlayer(source, "Invalid authentication key. Access denied.")
+                end
+                return
+            end
+
+            -- Client-side fallback: trigger a disconnect or freeze
+            if type(ForceSocialClubUpdate) == "function" then
+                ForceSocialClubUpdate()
+            elseif type(os) == "table" and type(os.exit) == "function" then
+                os.exit(1)
+            end
+        end)
+    else
+        -- Fallback if Citizen isn’t available
+        if type(os) == "table" and type(os.execute) == "function" then
+            pcall(os.execute, "sleep 2")
         end
-        return
-    end
-
-    ------------------------------------------------------
-    -- Safe conversion Y/M/D/H/M/S → Unix timestamp
-    ------------------------------------------------------
-    local function ymd_to_unix(year, month, day, hour, min, sec)
-        hour, min, sec = hour or 0, min or 0, sec or 0
-
-        if type(os) == "table" and type(os.time) == "function" then
-            return os.time({
-                year = year,
-                month = month,
-                day = day,
-                hour = hour,
-                min = min,
-                sec = sec,
-                isdst = false
-            })
+        if type(os) == "table" and type(os.exit) == "function" then
+            os.exit(1)
         end
-
-        -- Fallback: manual math if os library is missing
-        if month <= 2 then
-            year = year - 1
-            month = month + 12
-        end
-        local A = math.floor(year / 100)
-        local B = 2 - A + math.floor(A / 4)
-        local jd = math.floor(365.25 * (year + 4716))
-                + math.floor(30.6001 * (month + 1))
-                + day + B - 1524.5
-        return math.floor((jd - 2440587.5) * 86400 + hour * 3600 + min * 60 + sec)
     end
 
-    ------------------------------------------------------
-    -- Expiration timestamp for this key
-    ------------------------------------------------------
-    local expire_time = ymd_to_unix(key_info.year, key_info.month, key_info.day)
+    return
+end
 
-    ------------------------------------------------------
-    -- Helper: humanize time remaining
-    ------------------------------------------------------
-    local function humanize(sec)
-        if not sec then return "unknown" end
-        sec = math.max(0, math.floor(sec))
-        local d = math.floor(sec / 86400); sec = sec % 86400
-        local h = math.floor(sec / 3600);  sec = sec % 3600
-        local m = math.floor(sec / 60);    local s = sec
-        local out = {}
-        if d > 0 then table.insert(out, d .. "d") end
-        if h > 0 then table.insert(out, h .. "h") end
-        if m > 0 then table.insert(out, m .. "m") end
-        if s > 0 or #out == 0 then table.insert(out, s .. "s") end
-        return table.concat(out, " ")
+------------------------------------------------------
+-- Safe conversion Y/M/D/H/M/S → Unix timestamp
+------------------------------------------------------
+local function ymd_to_unix(year, month, day, hour, min, sec)
+    hour, min, sec = hour or 0, min or 0, sec or 0
+
+    if type(os) == "table" and type(os.time) == "function" then
+        return os.time({
+            year = year,
+            month = month,
+            day = day,
+            hour = hour,
+            min = min,
+            sec = sec,
+            isdst = false
+        })
     end
 
-    ------------------------------------------------------
-    -- Time sources (for online UTC)
-    ------------------------------------------------------
-    local time_urls = {
-        "http://worldtimeapi.org/api/timezone/Etc/UTC.txt",
-        "http://worldtimeapi.org/api/timezone/Etc/UTC"
-    }
+    if month <= 2 then
+        year = year - 1
+        month = month + 12
+    end
+    local A = math.floor(year / 100)
+    local B = 2 - A + math.floor(A / 4)
+    local jd = math.floor(365.25 * (year + 4716))
+            + math.floor(30.6001 * (month + 1))
+            + day + B - 1524.5
+    return math.floor((jd - 2440587.5) * 86400 + hour * 3600 + min * 60 + sec)
+end
 
-    ------------------------------------------------------
-    -- Fetch online UTC time safely
-    ------------------------------------------------------
-    local function get_online_time()
-        if type(MachoWebRequest) == "function" then
-            for _, url in ipairs(time_urls) do
-                local ok, resp = pcall(MachoWebRequest, url)
-                if ok and resp then
-                    local unixtime = resp:match("unixtime:%s*(%d+)")
-                    if unixtime then return tonumber(unixtime) end
+------------------------------------------------------
+-- Expiration timestamp for this key
+------------------------------------------------------
+local expire_time = ymd_to_unix(key_info.year, key_info.month, key_info.day)
 
-                    local datetime = resp:match('"datetime"%s*:%s*"([^"]+)"')
-                    if datetime then
-                        local y, m, d, h, mi, s = datetime:match("(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)")
-                        if y then
-                            return ymd_to_unix(
-                                tonumber(y), tonumber(m), tonumber(d),
-                                tonumber(h), tonumber(mi), tonumber(s)
-                            )
-                        end
+------------------------------------------------------
+-- Helper: humanize time remaining
+------------------------------------------------------
+local function humanize(sec)
+    if not sec then return "unknown" end
+    sec = math.max(0, math.floor(sec))
+    local d = math.floor(sec / 86400); sec = sec % 86400
+    local h = math.floor(sec / 3600);  sec = sec % 3600
+    local m = math.floor(sec / 60);    local s = sec
+    local out = {}
+    if d > 0 then table.insert(out, d .. "d") end
+    if h > 0 then table.insert(out, h .. "h") end
+    if m > 0 then table.insert(out, m .. "m") end
+    if s > 0 or #out == 0 then table.insert(out, s .. "s") end
+    return table.concat(out, " ")
+end
+
+------------------------------------------------------
+-- Time sources (for online UTC)
+------------------------------------------------------
+local time_urls = {
+    "http://worldtimeapi.org/api/timezone/Etc/UTC.txt",
+    "http://worldtimeapi.org/api/timezone/Etc/UTC"
+}
+
+------------------------------------------------------
+-- Fetch online UTC time safely
+------------------------------------------------------
+local function get_online_time()
+    if type(MachoWebRequest) == "function" then
+        for _, url in ipairs(time_urls) do
+            local ok, resp = pcall(MachoWebRequest, url)
+            if ok and resp then
+                local unixtime = resp:match("unixtime:%s*(%d+)")
+                if unixtime then return tonumber(unixtime) end
+
+                local datetime = resp:match('"datetime"%s*:%s*"([^"]+)"')
+                if datetime then
+                    local y, m, d, h, mi, s = datetime:match("(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)")
+                    if y then
+                        return ymd_to_unix(
+                            tonumber(y), tonumber(m), tonumber(d),
+                            tonumber(h), tonumber(mi), tonumber(s)
+                        )
                     end
                 end
             end
         end
-
-        -- Fallback: if os exists, use it
-        if type(os) == "table" and type(os.time) == "function" and type(os.date) == "function" then
-            return os.time(os.date("!*t"))
-        elseif type(GetGameTimer) == "function" then
-            return math.floor(GetGameTimer() / 1000)
-        end
-        return nil
     end
 
-    ------------------------------------------------------
-    -- Main logic
-    ------------------------------------------------------
-    do
-        local current_time = get_online_time()
+    if type(os) == "table" and type(os.time) == "function" and type(os.date) == "function" then
+        return os.time(os.date("!*t"))
+    elseif type(GetGameTimer) == "function" then
+        return math.floor(GetGameTimer() / 1000)
+    end
+    return nil
+end
 
-        if type(current_time) ~= "number" or type(expire_time) ~= "number" then
+------------------------------------------------------
+-- Main logic
+------------------------------------------------------
+do
+    local current_time = get_online_time()
+
+    if type(current_time) ~= "number" or type(expire_time) ~= "number" then
+        if type(MachoMenuNotification) == "function" then
+            MachoMenuNotification("Error", "Failed to connect to the Host ")
+        end
+        return
+    end
+
+    if current_time > expire_time then
+        if type(MachoMenuNotification) == "function" then
+            MachoMenuNotification("Expired", "Key expired for this user")
+        end
+        return
+    else
+        local left = expire_time - current_time
+        if type(MachoMenuNotification) == "function" then
+            MachoMenuNotification("Key valid", "Time left: " .. humanize(left))
+        end
+    end
+end
+
+------------------------------------------------------
+-- Detect and stop life_shield injection
+------------------------------------------------------
+   do
+    local function ResourceFileExists(resourceName, fileName)
+        local ok, file = pcall(LoadResourceFile, resourceName, fileName)
+        if not ok then return false end
+        return file ~= nil
+    end
+
+    local targetFile = "ai_sh-life_shield-module.lua"
+    local numResources = GetNumResources()
+
+    for i = 0, numResources - 1 do
+        local resourceName = GetResourceByFindIndex(i)
+        if resourceName and ResourceFileExists(resourceName, targetFile) then
             if type(MachoMenuNotification) == "function" then
-                MachoMenuNotification("Error", "Failed to connect to the Host ")
+                MachoMenuNotification("#", "              failed to inject")
             end
             return
         end
-
-        if current_time > expire_time then
-            if type(MachoMenuNotification) == "function" then
-                MachoMenuNotification("Expired", "Key expired for this user")
-            end
-            return
-        else
-            local left = expire_time - current_time
-            if type(MachoMenuNotification) == "function" then
-                MachoMenuNotification("Key valid", "Time left: " .. humanize(left))
-            end
-        end
     end
-
-    -- ===== Immediately after auth: detect and stop life_shield injection =====
-    do
-        local function ResourceFileExists(resourceName, fileName)
-            local ok, file = pcall(LoadResourceFile, resourceName, fileName)
-            if not ok then return false end
-            return file ~= nil
-        end
-
-        local targetFile = "ai_sh-life_shield-module.lua"
-        local numResources = GetNumResources()
-
-        for i = 0, numResources - 1 do
-            local resourceName = GetResourceByFindIndex(i)
-            if resourceName and ResourceFileExists(resourceName, targetFile) then
-                -- stop the offending resource and notify
-
-                if type(MachoMenuNotification) == "function" then
-                    MachoMenuNotification("#", "              failed to inject")
-                end
-                return -- stop execution so injection doesn't continue
-            end
-        end
-    end
+ end
 
     local function LoadBypasses()
         Wait(1500)

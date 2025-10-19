@@ -425,7 +425,7 @@ MachoMenuButton(EventTabSections[2], "Spawn Car", function()
 
             kLoMnBvCxZq(bPeDrTfGyHu, xFrEdCvBgTn, -1)
             ]])
-        MachoMenuNotification("[SPAWNED]", "Vehicle " .. CarName .. " spawned successfully!")
+        MachoMenuNotification("[SPAWNED]", "" .. CarName .. " spawned successfully!")
     else
         MachoMenuNotification("#Error", "Please enter a valid car name.")
     end
@@ -588,6 +588,16 @@ MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
 
     MachoMenuNotification("CRASH", "completed successfully")
 end)
+
+MachoMenuButton(EventTabSections[3], "Stress and Hunger", function()
+     MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+    TriggerServerEvent("hospital:server:resetHungerThirst")
+    Citizen.Wait(1500)
+    TriggerServerEvent('hud:server:GainStress', 1)
+    ]])
+    MachoMenuNotification("Relaxing", ";)")
+end)
+
 --SECTION OF DEV 
 MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
     MachoMenuNotification("No Clip", " Bypassed")

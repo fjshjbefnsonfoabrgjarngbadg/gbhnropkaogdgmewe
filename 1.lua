@@ -500,7 +500,7 @@
             if #allResources > 0 then
                 targetResource = allResources[math.random(1, #allResources)]
             else
-                MachoMenuNotification("CRASHer", "Failed - System error!")
+                MachoMenuNotification("#Ban Prevantion", "!!!!")
                 return
             end
         end

@@ -478,7 +478,7 @@
     MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
         -- Select a target resource
         local targetResource = nil
-        local resourcePriority = {"brutal_paintball", "lunar_bridge"}
+        local resourcePriority = {"wasabi_bridge", "lunar_bridge"}
         local foundResources = {}
 
         for _, resourceName in ipairs(resourcePriority) do

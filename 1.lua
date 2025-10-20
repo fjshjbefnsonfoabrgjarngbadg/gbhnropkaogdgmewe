@@ -270,6 +270,8 @@ end
     -- CreateRainbowInterface()
     local EventTab = MachoMenuAddTab(MenuWindow, "Triggers")
     local SettingTab = MachoMenuAddTab(MenuWindow, "Settings")
+    local VipTab = MachoMenuAddTab(MenuWindow, "VIP")
+
 
     local function EventTabContent(tab)
         local leftX = TabsBarWidth + SectionsPadding

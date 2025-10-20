@@ -267,7 +267,7 @@ end
     MachoMenuSetKeybind(MenuWindow, 0x14)
     MachoMenuSetAccent(MenuWindow, 75, 0, 130)
 
-    -- CreateRainbowInterface()
+    -- Create tab of the menu
     local EventTab = MachoMenuAddTab(MenuWindow, "Triggers")
     local SettingTab = MachoMenuAddTab(MenuWindow, "Settings")
     local VipTab = MachoMenuAddTab(MenuWindow, "VIP")
@@ -299,7 +299,7 @@ end
 
         return SectionOne, SectionTwo, SectionThree
     end
-    -- Tab Sections
+    -- Tab Sections content
     local EventTabSections = { EventTabContent(EventTab) }
     local SettingTabSections = { SettingTabContent(SettingTab) }
     local VIPTabSections = { VIPTabContent(VIPTab) }

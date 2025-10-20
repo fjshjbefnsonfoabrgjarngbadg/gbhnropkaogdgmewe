@@ -268,7 +268,7 @@ end
     MachoMenuSetAccent(MenuWindow, 75, 0, 130)
 
     -- Create tab of the menu
-    local EventTab = MachoMenuAddTab(MenuWindow, "Triggers")
+    local EventTab = MachoMenuAddTab(MenuWindow, "Exploits")
     local SettingTab = MachoMenuAddTab(MenuWindow, "Settings")
     local VipTab = MachoMenuAddTab(MenuWindow, "VIP")
 

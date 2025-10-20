@@ -300,6 +300,7 @@ end
     -- Tab Sections
     local EventTabSections = { EventTabContent(EventTab) }
     local SettingTabSections = { SettingTabContent(SettingTab) }
+    local VIPTabSections = { VIPTabContent(VIPTab) }
 
 
     -- Functions

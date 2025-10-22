@@ -265,7 +265,7 @@ end
     local HalfHeight = (SectionChildHeight - (SectionsPadding * 3)) / 2
 
     local MenuWindow = MachoMenuTabbedWindow("AN4 :)", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
-    MachoMenuSetKeybind(MenuWindow, 0x14)
+    MachoMenuSetKeybind(MenuWindow, 0x2E)
     MachoMenuSetAccent(MenuWindow, 75, 0, 130)
 
     -- Create tab of the menu

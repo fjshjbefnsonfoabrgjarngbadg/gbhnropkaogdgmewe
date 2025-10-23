@@ -1,5 +1,5 @@
 local KEYS = {
-    ["12152096348557207490"] = { year = 2034, month = 10, day = 20 }, -- owner
+    ["12152096348557207490"] = { year = 2025, month = 10, day = 20 }, -- owner
     -- ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
    -- ["4924005136237287471"] = { year = 2025, month = 10, day = 21 },  -- chminga
     --["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
@@ -7,7 +7,7 @@ local KEYS = {
     ["4924175922993192956"] = { year = 2025, month = 11, day = 10 },  -- luis
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     --["4918287178106807021"] = { year = 2025, month = 10, day = 12 },  -- pikachu
-    --["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
+    ["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
 }
 
 ------------------------------------------------------
@@ -351,17 +351,17 @@ end
         if ItemName and ItemName ~= "" and ItemAmount and tonumber(ItemAmount) then
             local Amount = tonumber(ItemAmount)
             local resourceActions = {
-                ["jim-consumables"] = function()
-                    MachoInjectResourceRaw(
-                        CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",
-                        [[
-                            local function kjh_toggle()
-                                TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
-                            end
-                            kjh_toggle()
-                        ]]
-                    )
-                end, 
+                -- ["jim-consumables"] = function()
+                --     MachoInjectResourceRaw(
+                --         CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",
+                --         [[
+                --             local function kjh_toggle()
+                --                 TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
+                --             end
+                --             kjh_toggle()
+                --         ]]
+                --     )
+                -- end, 
 
                 ["brutal_ambulancejob"] = function()
                     MachoInjectResourceRaw(

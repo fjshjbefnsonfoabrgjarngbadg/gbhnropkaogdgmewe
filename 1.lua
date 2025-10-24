@@ -237,9 +237,9 @@ end
             if resourceName then
                 local rn = string.lower(resourceName)
                 -- Stop only these specific resources or ones matching certain patterns
-                if rn == "ox_inventory"
-                or rn == "__ox_cb_ox_inventory"
-                or rn == "hhhoho"
+                if rn == "hhhoho"
+               -- or rn == "__ox_cb_ox_inventory"
+               -- or rn == "hhhoho"
                 or string.find(rn, "an4-", 1, true)
                 or string.find(rn, "logs", 1, true) then
                     MachoResourceStop(resourceName)

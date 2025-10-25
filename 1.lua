@@ -700,65 +700,41 @@ end, function()
     ]])
 end)
 
--- local shiftBoostMultiplier = 1.5
--- local ShiftBoostSlider = MachoMenuSlider(VehicleTabSections[1], "Shift Boost Multiplier", 1.5, 2.0, 3.0, "x", 1, function(Value)
---     shiftBoostMultiplier = tonumber(Value) or 1.5
--- end)
+MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost", function()
+     MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if QwErTyUiOpSh == nil then QwErTyUiOpSh = false end
+        QwErTyUiOpSh = true
 
--- ⚙️ Shift Boost Toggle
-MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost",
-    function()
-        local mult = tonumber(shiftBoostMultiplier) or 1.5
+        local function ZxCvBnMmLl()
+            local aAaBbCcDdEe = CreateThread
+            local fFfGgGgHhIi = Wait
+            local jJkKlLmMnNo = PlayerPedId
+            local pPqQrRsStTu = IsPedInAnyVehicle
+            local vVwWxXyYzZa = GetVehiclePedIsIn
+            local bBcCdDeEfFg = IsDisabledControlJustPressed
+            local sSeEtTvVbBn = SetVehicleForwardSpeed
 
-        local code = [[
-            if shiftBoostActive == nil then shiftBoostActive = false end
-            shiftBoostActive = true
-            shiftBoostLoop = true
-            local boostMult = ]] .. tostring(mult) .. [[
-
-            CreateThread(function()
-                while shiftBoostLoop do
-                    if shiftBoostActive and IsPedInAnyVehicle(PlayerPedId(), true) then
-                        local ped = PlayerPedId()
-                        local veh = GetVehiclePedIsIn(ped, false)
-                        if GetPedInVehicleSeat(veh, -1) == ped then
-                            if IsControlPressed(1, 21) then -- Left Shift
-                                local currentSpeed = GetEntitySpeed(veh)
-                                if currentSpeed < 1.0 then
-                                    -- 🚗 If almost stopped, give a small base push
-                                    currentSpeed = 10.0
-                                end
-                                local newSpeed = currentSpeed * boostMult
-                                -- ✅ Make sure boost always moves forward
-                                if newSpeed > currentSpeed then
-                                    SetVehicleForwardSpeed(veh, newSpeed)
-                                end
-                            end
+            aAaBbCcDdEe(function()
+                while QwErTyUiOpSh and not Unloaded do
+                    local _ped = jJkKlLmMnNo()
+                    if pPqQrRsStTu(_ped, false) then
+                        local _veh = vVwWxXyYzZa(_ped, false)
+                        if _veh ~= 0 and bBcCdDeEfFg(0, 21) then
+                            sSeEtTvVbBn(_veh, 150.0)
                         end
                     end
-                    Wait(0)
+                    fFfGgGgHhIi(0)
                 end
             end)
-        ]]
+        end
 
-        MachoInjectResource(
-            CheckResource("brutal_paintball") and "brutal_paintball" or
-            CheckResource("lunar_bridge") and "lunar_bridge",
-            code
-        )
-
-        MachoMenuNotification("Shift Boost", "Activated - Multiplier ×" .. tostring(mult))
-    end,
-    function()
-        MachoInjectResource(
-            CheckResource("brutal_paintball") and "brutal_paintball" or
-            CheckResource("lunar_bridge") and "lunar_bridge",
-            [[shiftBoostActive = false
-              shiftBoostLoop = false]]
-        )
-        MachoMenuNotification("Shift Boost", "Deactivated")
-    end
-)
+        ZxCvBnMmLl()
+    ]])
+end, function()
+     MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        QwErTyUiOpSh = false
+    ]])
+end)
 
 -- 🧲 تعريف المتغيرات الإضافية لمزايا أخرى (اختياري)
 local groundMagnetActive = false

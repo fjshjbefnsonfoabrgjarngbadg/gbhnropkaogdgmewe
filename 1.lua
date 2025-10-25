@@ -6,7 +6,7 @@ local KEYS = {
     ["4915742126387562510"] = { year = 2025, month = 11, day = 20 },  -- Fisher
     ["4924175922993192956"] = { year = 2025, month = 11, day = 22 },  -- luis
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
-    --["4918287178106807021"] = { year = 2025, month = 10, day = 12 },  -- pikachu
+    ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
     ["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
 }
 

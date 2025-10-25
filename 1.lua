@@ -271,6 +271,7 @@ end
 
     -- Create tab of the menu
     local EventTab = MachoMenuAddTab(MenuWindow, "Exploits")
+    local VehicleTab = MachoMenuAddTab(MenuWindow, "Vehicle")
     local SettingTab = MachoMenuAddTab(MenuWindow, "Settings")
     local VipTab = MachoMenuAddTab(MenuWindow, "VIP")
 
@@ -301,9 +302,24 @@ end
 
         return SectionOne, SectionTwo, SectionThree
     end
+
+local function VehicleTabContent(tab)
+    local leftX = TabsBarWidth + SectionsPadding
+    local topY = SectionsPadding + MachoPanelGap
+    local midY = topY + HalfHeight + SectionsPadding
+
+    local SectionOne = MachoMenuGroup(tab, "Mods", leftX, topY, leftX + ColumnWidth, topY + HalfHeight)
+    local SectionTwo = MachoMenuGroup(tab, "Plate & Spawning", leftX, midY, leftX + ColumnWidth, midY + HalfHeight)
+
+    local rightX = leftX + ColumnWidth + SectionsPadding
+    local SectionThree = MachoMenuGroup(tab, "Other", rightX, SectionsPadding + MachoPanelGap, rightX + ColumnWidth, SectionChildHeight)
+
+    return SectionOne, SectionTwo, SectionThree
+end
     -- Tab Sections content
     local EventTabSections = { EventTabContent(EventTab) }
     local SettingTabSections = { SettingTabContent(SettingTab) }
+    local VehicleTabSections = { VehicleTabContent(VehicleTab) }
    -- local VIPTabSections = { VIPTabContent(VIPTab) }
 
 
@@ -324,6 +340,862 @@ end
     end
 
     MachoLockLogger()
+  -- vehicle tab 
+
+  MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Godmode", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if zXcVbNmQwErTyUi == nil then zXcVbNmQwErTyUi = false end
+        zXcVbNmQwErTyUi = true
+
+        local function LWyZoXRbqK()
+            local LkJhGfDsAzXcVb = CreateThread
+            LkJhGfDsAzXcVb(function()
+                while zXcVbNmQwErTyUi and not Unloaded do
+                    local QwErTyUiOpAsDfG = GetVehiclePedIsIn
+                    local TyUiOpAsDfGhJkL = PlayerPedId
+                    local AsDfGhJkLzXcVbN = SetEntityInvincible
+
+                    local vehicle = QwErTyUiOpAsDfG(TyUiOpAsDfGhJkL(), false)
+                    if vehicle and vehicle ~= 0 then
+                        AsDfGhJkLzXcVbN(vehicle, true)
+                    end
+                    Wait(0)
+                end
+            end)
+        end
+
+        LWyZoXRbqK()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        zXcVbNmQwErTyUi = false
+        local QwErTyUiOpAsDfG = GetVehiclePedIsIn
+        local TyUiOpAsDfGhJkL = PlayerPedId
+        local AsDfGhJkLzXcVbN = SetEntityInvincible
+
+        local vehicle = QwErTyUiOpAsDfG(TyUiOpAsDfGhJkL(), true)
+        if vehicle and vehicle ~= 0 then
+            AsDfGhJkLzXcVbN(vehicle, false)
+        end
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Force Vehicle Engine", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if GhYtReFdCxWaQzLp == nil then GhYtReFdCxWaQzLp = false end
+        GhYtReFdCxWaQzLp = true
+
+        local function OpAsDfGhJkLzXcVb()
+            local lMnbVcXzZaSdFg = CreateThread
+            lMnbVcXzZaSdFg(function()
+                local QwErTyUiOp         = _G.PlayerPedId
+                local AsDfGhJkLz         = _G.GetVehiclePedIsIn
+                local TyUiOpAsDfGh       = _G.GetVehiclePedIsTryingToEnter
+                local ZxCvBnMqWeRtYu     = _G.SetVehicleEngineOn
+                local ErTyUiOpAsDfGh     = _G.SetVehicleUndriveable
+                local KeEpOnAb           = _G.SetVehicleKeepEngineOnWhenAbandoned
+                local En_g_Health_Get    = _G.GetVehicleEngineHealth
+                local En_g_Health_Set    = _G.SetVehicleEngineHealth
+                local En_g_Degrade_Set   = _G.SetVehicleEngineCanDegrade
+                local No_Hotwire_Set     = _G.SetVehicleNeedsToBeHotwired
+
+                local function _tick(vh)
+                    if vh and vh ~= 0 then
+                        No_Hotwire_Set(vh, false)
+                        En_g_Degrade_Set(vh, false)
+                        ErTyUiOpAsDfGh(vh, false)
+                        KeEpOnAb(vh, true)
+
+                        local eh = En_g_Health_Get(vh)
+                        if (not eh) or eh < 300.0 then
+                            En_g_Health_Set(vh, 900.0)
+                        end
+
+                        ZxCvBnMqWeRtYu(vh, true, true, true)
+                    end
+                end
+
+                while GhYtReFdCxWaQzLp and not Unloaded do
+                    local p  = QwErTyUiOp()
+
+                    _tick(AsDfGhJkLz(p, false))
+                    _tick(TyUiOpAsDfGh(p))
+                    _tick(AsDfGhJkLz(p, true))
+
+                    Wait(0)
+                end
+            end)
+        end
+
+        OpAsDfGhJkLzXcVb()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        GhYtReFdCxWaQzLp = false
+        local v = GetVehiclePedIsIn(PlayerPedId(), false)
+        if v and v ~= 0 then
+            SetVehicleKeepEngineOnWhenAbandoned(v, false)
+            SetVehicleEngineCanDegrade(v, true)
+            SetVehicleUndriveable(v, false)
+        end
+    ]])
+end)
+
+
+MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Auto Repair", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if PlAsQwErTyUiOp == nil then PlAsQwErTyUiOp = false end
+        PlAsQwErTyUiOp = true
+
+        local function uPkqLXTm98()
+            local QwErTyUiOpAsDf = CreateThread
+            QwErTyUiOpAsDf(function()
+                while PlAsQwErTyUiOp and not Unloaded do
+                    local AsDfGhJkLzXcVb = PlayerPedId
+                    local LzXcVbNmQwErTy = GetVehiclePedIsIn
+                    local VbNmLkJhGfDsAz = SetVehicleFixed
+                    local MnBvCxZaSdFgHj = SetVehicleDirtLevel
+
+                    local ped = AsDfGhJkLzXcVb()
+                    local vehicle = LzXcVbNmQwErTy(ped, false)
+                    if vehicle and vehicle ~= 0 then
+                        VbNmLkJhGfDsAz(vehicle)
+                        MnBvCxZaSdFgHj(vehicle, 0.0)
+                    end
+
+                    Wait(0)
+                end
+            end)
+        end
+
+        uPkqLXTm98()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        PlAsQwErTyUiOp = false
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Freeze Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if LzKxWcVbNmQwErTy == nil then LzKxWcVbNmQwErTy = false end
+        LzKxWcVbNmQwErTy = true
+
+        local function WkQ79ZyLpT()
+            local tYhGtFrDeSwQaZx = CreateThread
+            local xCvBnMqWeRtYuIo = PlayerPedId
+            local aSdFgHjKlZxCvBn = GetVehiclePedIsIn
+            local gKdNqLpYxMiV = FreezeEntityPosition
+            local jBtWxFhPoZuR = Wait
+
+            tYhGtFrDeSwQaZx(function()
+                while LzKxWcVbNmQwErTy and not Unloaded do
+                    local VbNmLkJhGfDsAzX = xCvBnMqWeRtYuIo()
+                    local IoPlMnBvCxZaSdF = aSdFgHjKlZxCvBn(VbNmLkJhGfDsAzX, false)
+                    if IoPlMnBvCxZaSdF and IoPlMnBvCxZaSdF ~= 0 then
+                        gKdNqLpYxMiV(IoPlMnBvCxZaSdF, true)
+                    end
+                    jBtWxFhPoZuR(0)
+                end
+            end)
+        end
+
+        WkQ79ZyLpT()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        LzKxWcVbNmQwErTy = false
+
+        local function i7qWlBXtPo()
+            local yUiOpAsDfGhJkLz = PlayerPedId
+            local QwErTyUiOpAsDfG = GetVehiclePedIsIn
+            local FdSaPlMnBvCxZlK = FreezeEntityPosition
+
+            local pEdRfTgYhUjIkOl = yUiOpAsDfGhJkLz()
+            local zXcVbNmQwErTyUi = QwErTyUiOpAsDfG(pEdRfTgYhUjIkOl, true)
+            if zXcVbNmQwErTyUi and zXcVbNmQwErTyUi ~= 0 then
+                FdSaPlMnBvCxZlK(zXcVbNmQwErTyUi, false)
+            end
+        end
+
+        i7qWlBXtPo()
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Hop", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if NuRqVxEyKiOlZm == nil then NuRqVxEyKiOlZm = false end
+        NuRqVxEyKiOlZm = true
+
+        local function qPTnXLZKyb()
+            local ZlXoKmVcJdBeTr = CreateThread
+            ZlXoKmVcJdBeTr(function()
+                while NuRqVxEyKiOlZm and not Unloaded do
+                    local GvHnMzLoPqAxEs = PlayerPedId
+                    local DwZaQsXcErDfGt = GetVehiclePedIsIn
+                    local BtNhUrLsEkJmWq = IsDisabledControlPressed
+                    local PlZoXvNyMcKwQi = ApplyForceToEntity
+
+                    local GtBvCzHnUkYeWr = GvHnMzLoPqAxEs()
+                    local OaXcJkWeMzLpRo = DwZaQsXcErDfGt(GtBvCzHnUkYeWr, false)
+
+                    if OaXcJkWeMzLpRo and OaXcJkWeMzLpRo ~= 0 and BtNhUrLsEkJmWq(0, 22) then
+                        PlZoXvNyMcKwQi(OaXcJkWeMzLpRo, 1, 0.0, 0.0, 6.0, 0.0, 0.0, 0.0, 0, true, true, true, true, true)
+                    end
+
+                    Wait(0)
+                end
+            end)
+        end
+
+        qPTnXLZKyb()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        NuRqVxEyKiOlZm = false
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Rainbow Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if GxRpVuNzYiTq == nil then GxRpVuNzYiTq = false end
+        GxRpVuNzYiTq = true
+
+        local function jqX7TvYzWq()
+            local WvBnMpLsQzTx = GetGameTimer
+            local VcZoPwLsEkRn = math.floor
+            local DfHkLtQwAzCx = math.sin
+            local PlJoQwErTgYs = CreateThread
+            local MzLxVoKsUyNz = GetVehiclePedIsIn
+            local EyUiNkOpLtRg = PlayerPedId
+            local KxFwEmTrZpYq = DoesEntityExist
+            local UfBnDxCrQeTg = SetVehicleCustomPrimaryColour
+            local BvNzMxLoPwEq = SetVehicleCustomSecondaryColour
+
+            local yGfTzLkRn = 1.0
+
+            local function HrCvWbXuNz(freq)
+                local color = {}
+                local t = WvBnMpLsQzTx() / 1000
+                color.r = VcZoPwLsEkRn(DfHkLtQwAzCx(t * freq + 0) * 127 + 128)
+                color.g = VcZoPwLsEkRn(DfHkLtQwAzCx(t * freq + 2) * 127 + 128)
+                color.b = VcZoPwLsEkRn(DfHkLtQwAzCx(t * freq + 4) * 127 + 128)
+                return color
+            end
+
+            PlJoQwErTgYs(function()
+                while GxRpVuNzYiTq and not Unloaded do
+                    local ped = EyUiNkOpLtRg()
+                    local veh = MzLxVoKsUyNz(ped, false)
+                    if veh and veh ~= 0 and KxFwEmTrZpYq(veh) then
+                        local rgb = HrCvWbXuNz(yGfTzLkRn)
+                        UfBnDxCrQeTg(veh, rgb.r, rgb.g, rgb.b)
+                        BvNzMxLoPwEq(veh, rgb.r, rgb.g, rgb.b)
+                    end
+                    Wait(0)
+                end
+            end)
+        end
+
+        jqX7TvYzWq()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        GxRpVuNzYiTq = false
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Drift Mode (Hold Shift)", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if MqTwErYuIoLp == nil then MqTwErYuIoLp = false end
+        MqTwErYuIoLp = true
+
+        local function PlRtXqJm92()
+            local XtFgDsQwAzLp = CreateThread
+            local UiOpAsDfGhKl = PlayerPedId
+            local JkHgFdSaPlMn = GetVehiclePedIsIn
+            local WqErTyUiOpAs = IsControlPressed
+            local AsZxCvBnMaSd = DoesEntityExist
+            local KdJfGvBhNtMq = SetVehicleReduceGrip
+
+            XtFgDsQwAzLp(function()
+                while MqTwErYuIoLp and not Unloaded do
+                    Wait(0)
+                    local ped = UiOpAsDfGhKl()
+                    local veh = JkHgFdSaPlMn(ped, false)
+                    if veh ~= 0 and AsZxCvBnMaSd(veh) then
+                        if WqErTyUiOpAs(0, 21) then
+                            KdJfGvBhNtMq(veh, true)
+                        else
+                            KdJfGvBhNtMq(veh, false)
+                        end
+                    end
+                end
+            end)
+        end
+
+        PlRtXqJm92()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        MqTwErYuIoLp = false
+        local ZtQwErTyUiOp = PlayerPedId
+        local DfGhJkLzXcVb = GetVehiclePedIsIn
+        local VbNmAsDfGhJk = DoesEntityExist
+        local NlJkHgFdSaPl = SetVehicleReduceGrip
+
+        local ped = ZtQwErTyUiOp()
+        local veh = DfGhJkLzXcVb(ped, false)
+        if veh ~= 0 and VbNmAsDfGhJk(veh) then
+            NlJkHgFdSaPl(veh, false)
+        end
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Easy Handling", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if NvGhJkLpOiUy == nil then NvGhJkLpOiUy = false end
+        NvGhJkLpOiUy = true
+
+        local function KbZwVoYtLx()
+            local BtGhYtUlOpLk = CreateThread
+            local WeRtYuIoPlMn = PlayerPedId
+            local TyUiOpAsDfGh = GetVehiclePedIsIn
+            local UyTrBnMvCxZl = SetVehicleGravityAmount
+            local PlMnBvCxZaSd = SetVehicleStrong
+
+            BtGhYtUlOpLk(function()
+                while NvGhJkLpOiUy and not Unloaded do
+                    local ped = WeRtYuIoPlMn()
+                    local veh = TyUiOpAsDfGh(ped, false)
+                    if veh and veh ~= 0 then
+                        UyTrBnMvCxZl(veh, 73.0)
+                        PlMnBvCxZaSd(veh, true)
+                    end
+                    Wait(0)
+                end
+
+                local ped = WeRtYuIoPlMn()
+                local veh = TyUiOpAsDfGh(ped, false)
+                if veh and veh ~= 0 then
+                    UyTrBnMvCxZl(veh, 9.8)
+                    PlMnBvCxZaSd(veh, false)
+                end
+            end)
+        end
+
+        KbZwVoYtLx()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        NvGhJkLpOiUy = false
+        local UyTrBnMvCxZl = SetVehicleGravityAmount
+        local PlMnBvCxZaSd = SetVehicleStrong
+        local ped = PlayerPedId()
+        local veh = GetVehiclePedIsIn(ped, false)
+        if veh and veh ~= 0 then
+            UyTrBnMvCxZl(veh, 9.8)
+            PlMnBvCxZaSd(veh, false)
+        end
+    ]])
+end)
+
+-- local shiftBoostMultiplier = 1.5
+-- local ShiftBoostSlider = MachoMenuSlider(VehicleTabSections[1], "Shift Boost Multiplier", 1.5, 2.0, 3.0, "x", 1, function(Value)
+--     shiftBoostMultiplier = tonumber(Value) or 1.5
+-- end)
+
+-- ⚙️ Shift Boost Toggle
+MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost",
+    function()
+        local mult = tonumber(shiftBoostMultiplier) or 1.5
+
+        local code = [[
+            if shiftBoostActive == nil then shiftBoostActive = false end
+            shiftBoostActive = true
+            shiftBoostLoop = true
+            local boostMult = ]] .. tostring(mult) .. [[
+
+            CreateThread(function()
+                while shiftBoostLoop do
+                    if shiftBoostActive and IsPedInAnyVehicle(PlayerPedId(), true) then
+                        local ped = PlayerPedId()
+                        local veh = GetVehiclePedIsIn(ped, false)
+                        if GetPedInVehicleSeat(veh, -1) == ped then
+                            if IsControlPressed(1, 21) then -- Left Shift
+                                local currentSpeed = GetEntitySpeed(veh)
+                                if currentSpeed < 1.0 then
+                                    -- 🚗 If almost stopped, give a small base push
+                                    currentSpeed = 10.0
+                                end
+                                local newSpeed = currentSpeed * boostMult
+                                -- ✅ Make sure boost always moves forward
+                                if newSpeed > currentSpeed then
+                                    SetVehicleForwardSpeed(veh, newSpeed)
+                                end
+                            end
+                        end
+                    end
+                    Wait(0)
+                end
+            end)
+        ]]
+
+        MachoInjectResource(
+            CheckResource("brutal_paintball") and "brutal_paintball" or
+            CheckResource("lunar_bridge") and "lunar_bridge",
+            code
+        )
+
+        MachoMenuNotification("Shift Boost", "Activated - Multiplier ×" .. tostring(mult))
+    end,
+    function()
+        MachoInjectResource(
+            CheckResource("brutal_paintball") and "brutal_paintball" or
+            CheckResource("lunar_bridge") and "lunar_bridge",
+            [[shiftBoostActive = false
+              shiftBoostLoop = false]]
+        )
+        MachoMenuNotification("Shift Boost", "Deactivated")
+    end
+)
+
+-- 🧲 تعريف المتغيرات الإضافية لمزايا أخرى (اختياري)
+local groundMagnetActive = false
+local groundMagnetLoop = false
+
+MachoMenuCheckbox(VehicleTabSections[1], "Instant Breaks", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if VkLpOiUyTrEq == nil then VkLpOiUyTrEq = false end
+        VkLpOiUyTrEq = true
+
+        local function YgT7FrqXcN()
+            local ZxSeRtYhUiOp = CreateThread
+            local LkJhGfDsAzXv = PlayerPedId
+            local PoLkJhBgVfCd = GetVehiclePedIsIn
+            local ErTyUiOpAsDf = IsDisabledControlPressed
+            local GtHyJuKoLpMi = IsPedInAnyVehicle
+            local VbNmQwErTyUi = SetVehicleForwardSpeed
+
+            ZxSeRtYhUiOp(function()
+                while VkLpOiUyTrEq and not Unloaded do
+                    local ped = LkJhGfDsAzXv()
+                    local veh = PoLkJhBgVfCd(ped, false)
+                    if veh and veh ~= 0 then
+                        if ErTyUiOpAsDf(0, 33) and GtHyJuKoLpMi(ped, false) then
+                            VbNmQwErTyUi(veh, 0.0)
+                        end
+                    end
+                    Wait(0)
+                end
+            end)
+        end
+
+        YgT7FrqXcN()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        VkLpOiUyTrEq = false
+    ]])
+end)
+
+MachoMenuCheckbox(VehicleTabSections[1], "Unlimited Fuel", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        if BlNkJmLzXcVb == nil then BlNkJmLzXcVb = false end
+        BlNkJmLzXcVb = true
+
+        local function LqWyXpR3tV()
+            local TmPlKoMiJnBg = CreateThread
+            local ZxCvBnMaSdFg = PlayerPedId
+            local YhUjIkOlPlMn = IsPedInAnyVehicle
+            local VcXzQwErTyUi = GetVehiclePedIsIn
+            local KpLoMkNjBhGt = DoesEntityExist
+            local JkLzXcVbNmAs = SetVehicleFuelLevel
+
+            TmPlKoMiJnBg(function()
+                while BlNkJmLzXcVb and not Unloaded do
+                    local ped = ZxCvBnMaSdFg()
+                    if YhUjIkOlPlMn(ped, false) then
+                        local veh = VcXzQwErTyUi(ped, false)
+                        if KpLoMkNjBhGt(veh) then
+                            JkLzXcVbNmAs(veh, 100.0)
+                        end
+                    end
+                    Wait(100)
+                end
+            end)
+        end
+
+        LqWyXpR3tV()
+    ]])
+end, function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        BlNkJmLzXcVb = false
+    ]])
+end)
+
+local LicensePlateHandle = MachoMenuInputbox(VehicleTabSections[2], "License Plate:", "...")
+MachoMenuButton(VehicleTabSections[2], "Set License Plate", function()
+    local LicensePlate = MachoMenuGetInputbox(LicensePlateHandle)
+
+    if type(LicensePlate) == "string" and LicensePlate ~= "" then
+        local injectedCode = string.format([[
+            local function xKqLZVwPt9()
+                local XcVbNmAsDfGhJkL = PlayerPedId
+                local TyUiOpZxCvBnMzLk = GetVehiclePedIsIn
+                local PoIuYtReWqAzXsDc = _G.SetVehicleNumberPlateText
+
+                local pEd = XcVbNmAsDfGhJkL()
+                local vEh = TyUiOpZxCvBnMzLk(pEd, false)
+
+                if vEh and vEh ~= 0 then
+                    PoIuYtReWqAzXsDc(vEh, "%s")
+                end
+
+            end
+
+            xKqLZVwPt9()
+        ]], LicensePlate)
+
+        MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or "any", injectedCode)
+    end
+end)
+
+local VehicleSpawnerBox = MachoMenuInputbox(VehicleTabSections[2], "Vehicle Model:", "...")
+MachoMenuButton(VehicleTabSections[2], "Spawn Car", function()
+    local VehicleModel = MachoMenuGetInputbox(VehicleSpawnerBox)
+
+    local waveShieldRunning = GetResourceState("WaveShield") == "started"
+    local lbPhoneRunning = GetResourceState("lb-phone") == "started"
+
+    local injectedCode
+
+    if not waveShieldRunning and lbPhoneRunning then
+        injectedCode = ([[ 
+            if type(CreateFrameworkVehicle) == "function" then
+                local model = "%s"
+                local hash = GetHashKey(model)
+                local ped = PlayerPedId()
+                if DoesEntityExist(ped) then
+                    local coords = GetEntityCoords(ped)
+                    if coords then
+                        local vehicleData = {
+                            vehicle = json.encode({ model = model })
+                        }
+                        CreateFrameworkVehicle(vehicleData, coords)
+                    end
+                end
+            end
+        ]]):format(VehicleModel)
+
+        MachoInjectResourceRaw("lb-phone", injectedCode)
+
+    else
+        injectedCode = ([[ 
+            local function XzRtVbNmQwEr()
+                local tYaPlXcUvBn = PlayerPedId
+                local iKoMzNbHgTr = GetEntityCoords
+                local wErTyUiOpAs = GetEntityHeading
+                local hGtRfEdCvBg = RequestModel
+                local bNjMkLoIpUh = HasModelLoaded
+                local pLkJhGfDsAq = Wait
+                local sXcVbNmZlQw = GetVehiclePedIsIn
+                local yUiOpAsDfGh = DeleteVehicle
+                local aSxDcFgHvBn = _G.CreateVehicle
+                local oLpKjHgFdSa = NetworkGetNetworkIdFromEntity
+                local zMxNaLoKvRe = SetEntityAsMissionEntity
+                local mVbGtRfEdCv = SetVehicleOutOfControl
+                local eDsFgHjKlQw = SetVehicleHasBeenOwnedByPlayer
+                local lAzSdXfCvBg = SetNetworkIdExistsOnAllMachines
+                local nMqWlAzXcVb = NetworkSetEntityInvisibleToNetwork
+                local vBtNrEuPwOa = SetNetworkIdCanMigrate
+                local gHrTyUjLoPk = SetModelAsNoLongerNeeded
+                local kLoMnBvCxZq = TaskWarpPedIntoVehicle
+
+                local bPeDrTfGyHu = tYaPlXcUvBn()
+                local cFiGuHvYbNj = iKoMzNbHgTr(bPeDrTfGyHu)
+                local jKgHnJuMkLp = wErTyUiOpAs(bPeDrTfGyHu)
+                local nMiLoPzXwEq = "%s"
+
+                hGtRfEdCvBg(nMiLoPzXwEq)
+                while not bNjMkLoIpUh(nMiLoPzXwEq) do
+                    pLkJhGfDsAq(100)
+                end
+
+                local fVbGtFrEdSw = sXcVbNmZlQw(bPeDrTfGyHu, false)
+                if fVbGtFrEdSw and fVbGtFrEdSw ~= 0 then
+                    yUiOpAsDfGh(fVbGtFrEdSw)
+                end
+
+                local xFrEdCvBgTn = aSxDcFgHvBn(nMiLoPzXwEq, cFiGuHvYbNj.x + 2.5, cFiGuHvYbNj.y, cFiGuHvYbNj.z, jKgHnJuMkLp, true, false)
+                local sMnLoKiJpUb = oLpKjHgFdSa(xFrEdCvBgTn)
+
+                zMxNaLoKvRe(xFrEdCvBgTn, true, true)
+                mVbGtRfEdCv(xFrEdCvBgTn, false, false)
+                eDsFgHjKlQw(xFrEdCvBgTn, false)
+                lAzSdXfCvBg(sMnLoKiJpUb, true)
+                nMqWlAzXcVb(xFrEdCvBgTn, false)
+                vBtNrEuPwOa(sMnLoKiJpUb, true)
+                gHrTyUjLoPk(nMiLoPzXwEq)
+
+                kLoMnBvCxZq(bPeDrTfGyHu, xFrEdCvBgTn, -1)
+            end
+
+            XzRtVbNmQwEr()
+        ]]):format(VehicleModel)
+
+        MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or "any", injectedCode)
+    end
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Repair Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function FgN7LqxZyP()
+            local aBcD = PlayerPedId
+            local eFgH = GetVehiclePedIsIn
+            local iJkL = SetVehicleFixed
+            local mNoP = SetVehicleDeformationFixed
+
+            local p = aBcD()
+            local v = eFgH(p, false)
+            if v and v ~= 0 then
+                iJkL(v)
+                mNoP(v)
+            end
+        end
+
+        FgN7LqxZyP()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Flip Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function vXmYLT9pq2()
+            local a = PlayerPedId
+            local b = GetVehiclePedIsIn
+            local c = GetEntityHeading
+            local d = SetEntityRotation
+
+            local ped = a()
+            local veh = b(ped, false)
+            if veh and veh ~= 0 then
+                d(veh, 0.0, 0.0, c(veh))
+            end
+        end
+
+        vXmYLT9pq2()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Clean Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function qPwRYKz7mL()
+            local a = PlayerPedId
+            local b = GetVehiclePedIsIn
+            local c = SetVehicleDirtLevel
+
+            local ped = a()
+            local veh = b(ped, false)
+            if veh and veh ~= 0 then
+                c(veh, 0.0)
+            end
+        end
+
+        qPwRYKz7mL()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Delete Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function LXpTqWvR80()
+            local aQw = PlayerPedId
+            local bEr = GetVehiclePedIsIn
+            local cTy = DoesEntityExist
+            local dUi = NetworkHasControlOfEntity
+            local eOp = SetEntityAsMissionEntity
+            local fAs = DeleteEntity
+            local gDf = DeleteVehicle
+            local hJk = SetVehicleHasBeenOwnedByPlayer
+
+            local ped = aQw()
+            local veh = bEr(ped, false)
+
+            if veh and veh ~= 0 and cTy(veh) then
+                hJk(veh, true)
+                eOp(veh, true, true)
+
+                if dUi(veh) then
+                    fAs(veh)
+                    gDf(veh)
+                end
+            end
+
+        end
+
+        LXpTqWvR80()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Toggle Vehicle Engine", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function NKzqVoXYLm()
+            local a = PlayerPedId
+            local b = GetVehiclePedIsIn
+            local c = GetIsVehicleEngineRunning
+            local d = SetVehicleEngineOn
+
+            local ped = a()
+            local veh = b(ped, false)
+            if veh and veh ~= 0 then
+                if c(veh) then
+                    d(veh, false, true, true)
+                else
+                    d(veh, true, true, false)
+                end
+            end
+        end
+
+        NKzqVoXYLm()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Max Vehicle Upgrades", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function XzPmLqRnWyBtVkGhQe()
+            local FnUhIpOyLkTrEzSd = PlayerPedId
+            local VmBgTnQpLcZaWdEx = GetVehiclePedIsIn
+            local RfDsHuNjMaLpOyBt = SetVehicleModKit
+            local AqWsEdRzXcVtBnMa = SetVehicleWheelType
+            local TyUiOpAsDfGhJkLz = GetNumVehicleMods
+            local QwErTyUiOpAsDfGh = SetVehicleMod
+            local ZxCvBnMqWeRtYuIo = ToggleVehicleMod
+            local MnBvCxZaSdFgHjKl = SetVehicleWindowTint
+            local LkJhGfDsQaZwXeCr = SetVehicleTyresCanBurst
+            local UjMiKoLpNwAzSdFg = SetVehicleExtra
+            local RvTgYhNuMjIkLoPb = DoesExtraExist
+
+            local lzQwXcVeTrBnMkOj = FnUhIpOyLkTrEzSd()
+            local jwErTyUiOpMzNaLk = VmBgTnQpLcZaWdEx(lzQwXcVeTrBnMkOj, false)
+            if not jwErTyUiOpMzNaLk or jwErTyUiOpMzNaLk == 0 then return end
+
+            RfDsHuNjMaLpOyBt(jwErTyUiOpMzNaLk, 0)
+            AqWsEdRzXcVtBnMa(jwErTyUiOpMzNaLk, 7)
+
+            for XyZoPqRtWnEsDfGh = 0, 16 do
+                local uYtReWqAzXsDcVf = TyUiOpAsDfGhJkLz(jwErTyUiOpMzNaLk, XyZoPqRtWnEsDfGh)
+                if uYtReWqAzXsDcVf and uYtReWqAzXsDcVf > 0 then
+                    QwErTyUiOpAsDfGh(jwErTyUiOpMzNaLk, XyZoPqRtWnEsDfGh, uYtReWqAzXsDcVf - 1, false)
+                end
+            end
+
+            QwErTyUiOpAsDfGh(jwErTyUiOpMzNaLk, 14, 16, false)
+
+            local aSxDcFgHiJuKoLpM = TyUiOpAsDfGhJkLz(jwErTyUiOpMzNaLk, 15)
+            if aSxDcFgHiJuKoLpM and aSxDcFgHiJuKoLpM > 1 then
+                QwErTyUiOpAsDfGh(jwErTyUiOpMzNaLk, 15, aSxDcFgHiJuKoLpM - 2, false)
+            end
+
+            for QeTrBnMkOjHuYgFv = 17, 22 do
+                ZxCvBnMqWeRtYuIo(jwErTyUiOpMzNaLk, QeTrBnMkOjHuYgFv, true)
+            end
+
+            QwErTyUiOpAsDfGh(jwErTyUiOpMzNaLk, 23, 1, false)
+            QwErTyUiOpAsDfGh(jwErTyUiOpMzNaLk, 24, 1, false)
+
+            for TpYuIoPlMnBvCxZq = 1, 12 do
+                if RvTgYhNuMjIkLoPb(jwErTyUiOpMzNaLk, TpYuIoPlMnBvCxZq) then
+                    UjMiKoLpNwAzSdFg(jwErTyUiOpMzNaLk, TpYuIoPlMnBvCxZq, false)
+                end
+            end
+
+            MnBvCxZaSdFgHjKl(jwErTyUiOpMzNaLk, 1)
+            LkJhGfDsQaZwXeCr(jwErTyUiOpMzNaLk, false)
+        end
+
+        XzPmLqRnWyBtVkGhQe()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Teleport into Closest Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function uPKcoBaEHmnK()
+            local ziCFzHyzxaLX = SetPedIntoVehicle
+            local YPPvDlOGBghA = GetClosestVehicle
+
+            local Coords = GetEntityCoords(PlayerPedId())
+            local vehicle = YPPvDlOGBghA(Coords.x, Coords.y, Coords.z, 15.0, 0, 70)
+
+            if DoesEntityExist(vehicle) and not IsPedInAnyVehicle(PlayerPedId(), false) then
+                if GetPedInVehicleSeat(vehicle, -1) == 0 then
+                    ziCFzHyzxaLX(PlayerPedId(), vehicle, -1)
+                else
+                    ziCFzHyzxaLX(PlayerPedId(), vehicle, 0)
+                end
+            end
+        end
+
+        uPKcoBaEHmnK()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Unlock Closest Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function TpLMqKtXwZ()
+            local AsoYuTrBnMvCxZaQw = PlayerPedId
+            local GhrTnLpKjUyVbMnZx = GetEntityCoords
+            local UyeWsDcXzQvBnMaLp = GetClosestVehicle
+            local ZmkLpQwErTyUiOpAs = DoesEntityExist
+            local VczNmLoJhBgVfCdEx = SetEntityAsMissionEntity
+            local EqWoXyBkVsNzQuH = SetVehicleDoorsLocked
+            local YxZwQvTrBnMaSdFgHj = SetVehicleDoorsLockedForAllPlayers
+            local RtYuIoPlMnBvCxZaSd = SetVehicleHasBeenOwnedByPlayer
+            local LkJhGfDsAzXwCeVrBt = NetworkHasControlOfEntity
+
+            local ped = AsoYuTrBnMvCxZaQw()
+            local coords = GhrTnLpKjUyVbMnZx(ped)
+            local veh = UyeWsDcXzQvBnMaLp(coords.x, coords.y, coords.z, 10.0, 0, 70)
+
+            if veh and ZmkLpQwErTyUiOpAs(veh) and LkJhGfDsAzXwCeVrBt(veh) then
+                VczNmLoJhBgVfCdEx(veh, true, true)
+                RtYuIoPlMnBvCxZaSd(veh, true)
+                EqWoXyBkVsNzQuH(veh, 1)
+                YxZwQvTrBnMaSdFgHj(veh, false)
+            end
+
+        end
+
+        TpLMqKtXwZ()
+    ]])
+end)
+
+MachoMenuButton(VehicleTabSections[3], "Lock Closest Vehicle", function()
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+        local function tRYpZvKLxQ()
+            local WqEoXyBkVsNzQuH = PlayerPedId
+            local LoKjBtWxFhPoZuR = GetEntityCoords
+            local VbNmAsDfGhJkLzXcVb = GetClosestVehicle
+            local TyUiOpAsDfGhJkLzXc = DoesEntityExist
+            local PlMnBvCxZaSdFgTrEq = SetEntityAsMissionEntity
+            local KjBtWxFhPoZuRZlK = SetVehicleHasBeenOwnedByPlayer
+            local AsDfGhJkLzXcVbNmQwE = SetVehicleDoorsLocked
+            local QwEoXyBkVsNzQuHL = SetVehicleDoorsLockedForAllPlayers
+            local ZxCvBnMaSdFgTrEqWz = NetworkHasControlOfEntity
+
+            local ped = WqEoXyBkVsNzQuH()
+            local coords = LoKjBtWxFhPoZuR(ped)
+            local veh = VbNmAsDfGhJkLzXcVb(coords.x, coords.y, coords.z, 10.0, 0, 70)
+
+            if veh and TyUiOpAsDfGhJkLzXc(veh) and ZxCvBnMaSdFgTrEqWz(veh) then
+                PlMnBvCxZaSdFgTrEq(veh, true, true)
+                KjBtWxFhPoZuRZlK(veh, true)
+                AsDfGhJkLzXcVbNmQwE(veh, 2)
+                QwEoXyBkVsNzQuHL(veh, true)
+            end
+        end
+
+        tRYpZvKLxQ()
+    ]])
+end)
 
     -- Event Tab Inputboxes
     InputBoxHandle = MachoMenuInputbox(EventTabSections[1], "Name:", "...")

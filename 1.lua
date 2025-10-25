@@ -728,7 +728,7 @@ end
         local devInput = MachoMenuGetInputbox(InputBoxUnderDev)
         if not devInput or devInput == "" then
     MachoMenuNotification("Enabled", " Press F5 to use" )
-        MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+        MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge", [[
 
         local removeKey = 166
 

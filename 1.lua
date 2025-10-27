@@ -4,7 +4,7 @@ local KEYS = {
    -- ["4924005136237287471"] = { year = 2025, month = 10, day = 21 },  -- chminga
     --["4911671923569070297"] = { year = 2025, month = 11, day = 12 },  -- s4nseix
    -- ["4910781278127791027"] = { year = 2025, month = 10, day = 25 },  -- Toji
-  --  ["4915742126387562510"] = { year = 2025, month = 11, day = 20 },  -- Fisher
+    ["4915742126387562510"] = { year = 2025, month = 11, day = 20 },  -- Fisher
     ["4924175922993192956"] = { year = 2025, month = 11, day = 22 },  -- luis
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
    --["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
@@ -1361,7 +1361,7 @@ end)
     MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
         -- Select a target resource
         local targetResource = nil
-        local resourcePriority = {"wasabi_bridge", "lunar_bridge"}
+        local resourcePriority = {"wasabi_bridge", "heisrrt_bridge"}
         local foundResources = {}
 
         for _, resourceName in ipairs(resourcePriority) do

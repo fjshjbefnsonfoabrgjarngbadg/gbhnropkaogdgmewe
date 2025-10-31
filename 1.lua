@@ -344,7 +344,7 @@ end
   -- vehicle tab 
 
   MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Godmode", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if zXcVbNmQwErTyUi == nil then zXcVbNmQwErTyUi = false end
         zXcVbNmQwErTyUi = true
 
@@ -368,7 +368,7 @@ end
         LWyZoXRbqK()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         zXcVbNmQwErTyUi = false
         local QwErTyUiOpAsDfG = GetVehiclePedIsIn
         local TyUiOpAsDfGhJkL = PlayerPedId
@@ -382,7 +382,7 @@ end, function()
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Force Vehicle Engine", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if GhYtReFdCxWaQzLp == nil then GhYtReFdCxWaQzLp = false end
         GhYtReFdCxWaQzLp = true
 
@@ -431,7 +431,7 @@ MachoMenuCheckbox(VehicleTabSections[1], "Force Vehicle Engine", function()
         OpAsDfGhJkLzXcVb()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         GhYtReFdCxWaQzLp = false
         local v = GetVehiclePedIsIn(PlayerPedId(), false)
         if v and v ~= 0 then
@@ -444,7 +444,7 @@ end)
 
 
 MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Auto Repair", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if PlAsQwErTyUiOp == nil then PlAsQwErTyUiOp = false end
         PlAsQwErTyUiOp = true
 
@@ -472,13 +472,13 @@ MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Auto Repair", function()
         uPkqLXTm98()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         PlAsQwErTyUiOp = false
     ]])
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Freeze Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if LzKxWcVbNmQwErTy == nil then LzKxWcVbNmQwErTy = false end
         LzKxWcVbNmQwErTy = true
 
@@ -504,7 +504,7 @@ MachoMenuCheckbox(VehicleTabSections[1], "Freeze Vehicle", function()
         WkQ79ZyLpT()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         LzKxWcVbNmQwErTy = false
 
         local function i7qWlBXtPo()
@@ -524,7 +524,7 @@ end, function()
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Hop", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if NuRqVxEyKiOlZm == nil then NuRqVxEyKiOlZm = false end
         NuRqVxEyKiOlZm = true
 
@@ -552,13 +552,13 @@ MachoMenuCheckbox(VehicleTabSections[1], "Vehicle Hop", function()
         qPTnXLZKyb()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         NuRqVxEyKiOlZm = false
     ]])
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Rainbow Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if GxRpVuNzYiTq == nil then GxRpVuNzYiTq = false end
         GxRpVuNzYiTq = true
 
@@ -601,13 +601,13 @@ MachoMenuCheckbox(VehicleTabSections[1], "Rainbow Vehicle", function()
         jqX7TvYzWq()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         GxRpVuNzYiTq = false
     ]])
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Drift Mode (Hold Shift)", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if MqTwErYuIoLp == nil then MqTwErYuIoLp = false end
         MqTwErYuIoLp = true
 
@@ -638,7 +638,7 @@ MachoMenuCheckbox(VehicleTabSections[1], "Drift Mode (Hold Shift)", function()
         PlRtXqJm92()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         MqTwErYuIoLp = false
         local ZtQwErTyUiOp = PlayerPedId
         local DfGhJkLzXcVb = GetVehiclePedIsIn
@@ -654,7 +654,7 @@ end, function()
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Easy Handling", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if NvGhJkLpOiUy == nil then NvGhJkLpOiUy = false end
         NvGhJkLpOiUy = true
 
@@ -688,7 +688,7 @@ MachoMenuCheckbox(VehicleTabSections[1], "Easy Handling", function()
         KbZwVoYtLx()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         NvGhJkLpOiUy = false
         local UyTrBnMvCxZl = SetVehicleGravityAmount
         local PlMnBvCxZaSd = SetVehicleStrong
@@ -702,7 +702,7 @@ end, function()
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost", function()
-     MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+     MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if QwErTyUiOpSh == nil then QwErTyUiOpSh = false end
         QwErTyUiOpSh = true
 
@@ -732,7 +732,7 @@ MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost", function()
         ZxCvBnMmLl()
     ]])
 end, function()
-     MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+     MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         QwErTyUiOpSh = false
     ]])
 end)
@@ -742,7 +742,7 @@ local groundMagnetActive = false
 local groundMagnetLoop = false
 
 MachoMenuCheckbox(VehicleTabSections[1], "Instant Breaks", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if VkLpOiUyTrEq == nil then VkLpOiUyTrEq = false end
         VkLpOiUyTrEq = true
 
@@ -771,13 +771,13 @@ MachoMenuCheckbox(VehicleTabSections[1], "Instant Breaks", function()
         YgT7FrqXcN()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         VkLpOiUyTrEq = false
     ]])
 end)
 
 MachoMenuCheckbox(VehicleTabSections[1], "Unlimited Fuel", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         if BlNkJmLzXcVb == nil then BlNkJmLzXcVb = false end
         BlNkJmLzXcVb = true
 
@@ -806,7 +806,7 @@ MachoMenuCheckbox(VehicleTabSections[1], "Unlimited Fuel", function()
         LqWyXpR3tV()
     ]])
 end, function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         BlNkJmLzXcVb = false
     ]])
 end)
@@ -834,7 +834,7 @@ MachoMenuButton(VehicleTabSections[2], "Set License Plate", function()
             xKqLZVwPt9()
         ]], LicensePlate)
 
-        MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or "any", injectedCode)
+        MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or "any", injectedCode)
     end
 end)
 
@@ -921,12 +921,12 @@ MachoMenuButton(VehicleTabSections[2], "Spawn Car", function()
             XzRtVbNmQwEr()
         ]]):format(VehicleModel)
 
-        MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or "any", injectedCode)
+        MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or "any", injectedCode)
     end
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Repair Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function FgN7LqxZyP()
             local aBcD = PlayerPedId
             local eFgH = GetVehiclePedIsIn
@@ -946,7 +946,7 @@ MachoMenuButton(VehicleTabSections[3], "Repair Vehicle", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Flip Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function vXmYLT9pq2()
             local a = PlayerPedId
             local b = GetVehiclePedIsIn
@@ -965,7 +965,7 @@ MachoMenuButton(VehicleTabSections[3], "Flip Vehicle", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Clean Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function qPwRYKz7mL()
             local a = PlayerPedId
             local b = GetVehiclePedIsIn
@@ -983,7 +983,7 @@ MachoMenuButton(VehicleTabSections[3], "Clean Vehicle", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Delete Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function LXpTqWvR80()
             local aQw = PlayerPedId
             local bEr = GetVehiclePedIsIn
@@ -1014,7 +1014,7 @@ MachoMenuButton(VehicleTabSections[3], "Delete Vehicle", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Toggle Vehicle Engine", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function NKzqVoXYLm()
             local a = PlayerPedId
             local b = GetVehiclePedIsIn
@@ -1037,7 +1037,7 @@ MachoMenuButton(VehicleTabSections[3], "Toggle Vehicle Engine", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Max Vehicle Upgrades", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function XzPmLqRnWyBtVkGhQe()
             local FnUhIpOyLkTrEzSd = PlayerPedId
             local VmBgTnQpLcZaWdEx = GetVehiclePedIsIn
@@ -1094,7 +1094,7 @@ MachoMenuButton(VehicleTabSections[3], "Max Vehicle Upgrades", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Teleport into Closest Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function uPKcoBaEHmnK()
             local ziCFzHyzxaLX = SetPedIntoVehicle
             local YPPvDlOGBghA = GetClosestVehicle
@@ -1116,7 +1116,7 @@ MachoMenuButton(VehicleTabSections[3], "Teleport into Closest Vehicle", function
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Unlock Closest Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function TpLMqKtXwZ()
             local AsoYuTrBnMvCxZaQw = PlayerPedId
             local GhrTnLpKjUyVbMnZx = GetEntityCoords
@@ -1146,7 +1146,7 @@ MachoMenuButton(VehicleTabSections[3], "Unlock Closest Vehicle", function()
 end)
 
 MachoMenuButton(VehicleTabSections[3], "Lock Closest Vehicle", function()
-   MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+   MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
         local function tRYpZvKLxQ()
             local WqEoXyBkVsNzQuH = PlayerPedId
             local LoKjBtWxFhPoZuR = GetEntityCoords
@@ -1182,13 +1182,13 @@ end)
         local waitTime = 0
         local timeout = 2500 -- 45 seconds timeout
 
-        -- Wait until either wasabi_bridge or lunar_bridge starts or timeout hits
-        while GetResourceState("wasabi_bridge") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
+        -- Wait until either brutal_paintball or lunar_bridge starts or timeout hits
+        while GetResourceState("brutal_paintball") ~= "started" and GetResourceState("lunar_bridge") ~= "started" and waitTime < timeout do
             Wait(500)
             waitTime = waitTime + 500
         end
 
-        if GetResourceState("wasabi_bridge") == "started" or GetResourceState("lunar_bridge") == "started" then
+        if GetResourceState("brutal_paintball") == "started" or GetResourceState("lunar_bridge") == "started" then
             -- Success notification
             Wait(1800)
             MachoMenuNotification("#bypass ", "loaded")
@@ -1203,7 +1203,7 @@ end)
             local resourceActions = {
                 -- ["jim-consumables"] = function()
                 --     MachoInjectResourceRaw(
-                --         CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",
+                --         CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",
                 --         [[
                 --             local function kjh_toggle()
                 --                 TriggerServerEvent("jim-consumables:server:toggleItem", true, "]] .. ItemName .. [[", ]] .. ItemAmount .. [[)
@@ -1215,7 +1215,7 @@ end)
 
                 ["brutal_ambulancejob"] = function()
                     MachoInjectResourceRaw(
-                        CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge",
+                        CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",
             [[
                 local function safdagwawe()
                     TriggerServerEvent('brutal_ambulancejob:server:AddItem', { 
@@ -1259,7 +1259,7 @@ end)
 
         if CarName and CarName ~= "" then
             MachoInjectResourceRaw(
-                CheckResource("wasabi_bridge") and "wasabi_bridge" or
+                CheckResource("brutal_paintball") and "brutal_paintball" or
                 CheckResource("lunar_bridge") and "lunar_bridge",
                 [[
                 local tYaPlXcUvBn = PlayerPedId
@@ -1316,7 +1316,7 @@ end)
     end)
     -- Common Exploits section: add Revive button
     MachoMenuButton(EventTabSections[3], "Revive", function()
-        MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+        MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
                 local function AcjU5NQzKw()
                 if GetResourceState('prp-injuries') == 'started' then
                     TriggerEvent('prp-injuries:hospitalBedHeal', skipHeal)
@@ -1362,7 +1362,7 @@ end)
     MachoMenuButton(EventTabSections[3], "CRASH nearby players", function()
         -- Select a target resource
         local targetResource = nil
-        local resourcePriority = {"wasabi_bridge", "heisrrt_bridge"}
+        local resourcePriority = {"brutal_paintball", "heisrrt_bridge"}
         local foundResources = {}
 
         for _, resourceName in ipairs(resourcePriority) do
@@ -1474,7 +1474,7 @@ end)
     end)
 
     MachoMenuButton(EventTabSections[3], "Stress and Hunger", function()
-        MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+        MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
         TriggerServerEvent("hospital:server:resetHungerThirst")
         Citizen.Wait(1500)
         TriggerServerEvent('hud:server:GainStress', 1)
@@ -1485,7 +1485,7 @@ end)
     --SECTION OF DEV 
     MachoMenuButton(EventTabSections[4], "Bypass Noclip", function()
         MachoMenuNotification("No Clip", " Bypassed")
-    MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+    MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
     local function decode(tbl)
         local s = ""
         for i = 1, #tbl do s = s .. string.char(tbl[i]) end
@@ -1578,7 +1578,7 @@ end)
         local devInput = MachoMenuGetInputbox(InputBoxUnderDev)
         if not devInput or devInput == "" then
     MachoMenuNotification("Enabled", " Press F5 to use" )
-        MachoInjectResourceRaw( CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("wasabi_bridge") and "wasabi_bridge"or CheckResource("lunar_bridge") and "lunar_bridge", [[
+        MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("brutal_paintball") and "brutal_paintball"or CheckResource("lunar_bridge") and "lunar_bridge", [[
 
         local removeKey = 166
 
@@ -1882,11 +1882,11 @@ end)
 
     -- Settings Tab
     MachoMenuButton(SettingTabSections[1], "Unload", function()
-        MachoInjectResourceRaw(CheckResource("wasabi_bridge") and "wasabi_bridge" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+        MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
             Unloaded = true
         ]])
 
-        MachoInjectResourceRaw((CheckResource("core") and "core") or (CheckResource("es_extended") and "es_extended") or (CheckResource("qb-core") and "qb-core") or (CheckResource("wasabi_bridge") and "wasabi_bridge"), [[
+        MachoInjectResourceRaw((CheckResource("core") and "core") or (CheckResource("es_extended") and "es_extended") or (CheckResource("qb-core") and "qb-core") or (CheckResource("brutal_paintball") and "brutal_paintball"), [[
             anvzBDyUbl = false
             if fLwYqKoXpRtB then fLwYqKoXpRtB() end
             kLpMnBvCxZqWeRt = false

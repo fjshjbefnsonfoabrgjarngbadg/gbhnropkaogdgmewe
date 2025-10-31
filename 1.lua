@@ -1,4 +1,4 @@
---appppppppppppppppppp
+ --appppppppppppppppppp
 local KEYS = {
     ["12152096348557207490"] = { year = 2025, month = 11, day = 30 }, -- owner
     -- ["4913442350532066002"] = { year = 2025, month = 11, day = 5 },  -- Riffi 
@@ -8,7 +8,7 @@ local KEYS = {
     ["4915742126387562510"] = { year = 2025, month = 11, day = 20 },  -- Fisher
     ["4909687835420144799"] = { year = 2025, month = 11, day = 22 },  -- luis
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
-  -- ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
+   ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
     ["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
 }
 
@@ -1473,11 +1473,48 @@ end)
         MachoMenuNotification("#CRASH", "completed successfully")
     end)
 
-    MachoMenuButton(EventTabSections[3], "Stress and Hunger", function()
+    MachoMenuButton(EventTabSections[3], "Tug", function()
         MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-        TriggerServerEvent("hospital:server:resetHungerThirst")
-        Citizen.Wait(1500)
-        TriggerServerEvent('hud:server:GainStress', 1)
+local modelName = "tug" -- change to "adder", "tug", "dinghy", etc.
+
+-- Function to auto-detect type and spawn
+function AutoSpawnVehicle(modelName)
+    local model = GetHashKey(modelName)
+
+    if not IsModelInCdimage(model) or not IsModelAVehicle(model) then
+        print("Invalid vehicle model: " .. modelName)
+        return
+    end
+
+    RequestModel(model)
+    while not HasModelLoaded(model) do
+        Wait(10)
+    end
+
+    -- Detect vehicle type automatically
+    local vType = GetVehicleType(model)
+
+    -- Normalize type for txAdmin
+    if vType == "heli" then
+        vType = "helicopter"
+    elseif vType == "plane" then
+        vType = "plane"
+    elseif vType == "automobile" or vType == "bike" or vType == "quadbike" then
+        vType = "automobile"
+    elseif vType == "boat" then
+        vType = "boat"
+    else
+        vType = "automobile"
+    end
+
+    -- Trigger txAdmin vehicle spawn
+    TriggerServerEvent('txsv:req:vehicle:spawn:fivem', modelName, vType)
+    print(("Spawned %s automatically as %s"):format(modelName, vType))
+end
+CreateThread(function()
+    Wait(2000) -- short delay to ensure everything loads
+    AutoSpawnVehicle(modelName)
+end)
         ]])
         MachoMenuNotification("Relaxing", ";)")
     end)

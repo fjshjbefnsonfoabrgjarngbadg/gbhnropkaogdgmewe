@@ -1476,7 +1476,7 @@ end)
 
 
     MachoMenuButton(EventTabSections[3], "Crash v2", function()
-        MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
+    MachoInjectResourceRaw('ox_lib', [[
   CreateObject = function()
 
   end
@@ -1498,7 +1498,7 @@ end)
   plyState:set('lib:progressProps', props, true)
   Wait(1000)
   plyState:set('lib:progressProps', nil, true)
-        ]])
+]])
         MachoMenuNotification("Crashed ", ";)")
     end)
 

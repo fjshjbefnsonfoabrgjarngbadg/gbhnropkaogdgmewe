@@ -845,7 +845,7 @@ MachoMenuButton(VehicleTabSections[2], "Spawn Car", function()
     local VehicleModel = MachoMenuGetInputbox(VehicleSpawnerBox)
 
     local waveShieldRunning = GetResourceState("WaveShield") == "started"
-    local lbPhoneRunning = GetResourceState("lb-phone") == "started"
+    local lbPhoneRunning = GetResourceState("wasabi_bridge") == "started"
 
     local injectedCode
 
@@ -867,7 +867,7 @@ MachoMenuButton(VehicleTabSections[2], "Spawn Car", function()
             end
         ]]):format(VehicleModel)
 
-        MachoInjectResourceRaw("lb-phone", injectedCode)
+        MachoInjectResourceRaw("wasabi_bridge", injectedCode)
 
     else
         injectedCode = ([[ 

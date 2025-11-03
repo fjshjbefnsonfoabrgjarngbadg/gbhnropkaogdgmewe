@@ -10,7 +10,7 @@ local KEYS = {
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     ["4923368873291497769"] = { year = 2025, month = 11, day = 10 },  -- lueoo
      ["4920144698443590123"] = { year = 2025, month = 12, day = 10 },  -- mario
-   ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
+ --  ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
     ["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
 }
 
@@ -268,7 +268,7 @@ end
     local ColumnWidth = (SectionChildWidth - (SectionsPadding * 3)) / 2
     local HalfHeight = (SectionChildHeight - (SectionsPadding * 3)) / 2
 
-    local MenuWindow = MachoMenuTabbedWindow("Catz", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
+    local MenuWindow = MachoMenuTabbedWindow("Toreto", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
     MachoMenuSetKeybind(MenuWindow, 0x2E)
     MachoMenuSetAccent(MenuWindow, 255, 0, 0)
 

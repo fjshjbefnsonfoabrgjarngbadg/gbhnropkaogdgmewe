@@ -267,7 +267,7 @@ end
     local ColumnWidth = (SectionChildWidth - (SectionsPadding * 3)) / 2
     local HalfHeight = (SectionChildHeight - (SectionsPadding * 3)) / 2
 
-    local MenuWindow = MachoMenuTabbedWindow("Catz ", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
+    local MenuWindow = MachoMenuTabbedWindow("Fisher", MenuStartCoords.x, MenuStartCoords.y, MenuSize.x, MenuSize.y, TabsBarWidth)
     MachoMenuSetKeybind(MenuWindow, 0x2E)
     MachoMenuSetAccent(MenuWindow, 255, 0, 0)
 

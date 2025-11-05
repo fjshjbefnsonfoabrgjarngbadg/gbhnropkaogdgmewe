@@ -703,41 +703,41 @@ end, function()
     ]])
 end)
 
-MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost", function()
-     MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
-        if QwErTyUiOpSh == nil then QwErTyUiOpSh = false end
-        QwErTyUiOpSh = true
+-- MachoMenuCheckbox(VehicleTabSections[1], "Shift Boost", function()
+--      MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+--         if QwErTyUiOpSh == nil then QwErTyUiOpSh = false end
+--         QwErTyUiOpSh = true
 
-        local function ZxCvBnMmLl()
-            local aAaBbCcDdEe = CreateThread
-            local fFfGgGgHhIi = Wait
-            local jJkKlLmMnNo = PlayerPedId
-            local pPqQrRsStTu = IsPedInAnyVehicle
-            local vVwWxXyYzZa = GetVehiclePedIsIn
-            local bBcCdDeEfFg = IsDisabledControlJustPressed
-            local sSeEtTvVbBn = SetVehicleForwardSpeed
+--         local function ZxCvBnMmLl()
+--             local aAaBbCcDdEe = CreateThread
+--             local fFfGgGgHhIi = Wait
+--             local jJkKlLmMnNo = PlayerPedId
+--             local pPqQrRsStTu = IsPedInAnyVehicle
+--             local vVwWxXyYzZa = GetVehiclePedIsIn
+--             local bBcCdDeEfFg = IsDisabledControlJustPressed
+--             local sSeEtTvVbBn = SetVehicleForwardSpeed
 
-            aAaBbCcDdEe(function()
-                while QwErTyUiOpSh and not Unloaded do
-                    local _ped = jJkKlLmMnNo()
-                    if pPqQrRsStTu(_ped, false) then
-                        local _veh = vVwWxXyYzZa(_ped, false)
-                        if _veh ~= 0 and bBcCdDeEfFg(0, 21) then
-                            sSeEtTvVbBn(_veh, 150.0)
-                        end
-                    end
-                    fFfGgGgHhIi(0)
-                end
-            end)
-        end
+--             aAaBbCcDdEe(function()
+--                 while QwErTyUiOpSh and not Unloaded do
+--                     local _ped = jJkKlLmMnNo()
+--                     if pPqQrRsStTu(_ped, false) then
+--                         local _veh = vVwWxXyYzZa(_ped, false)
+--                         if _veh ~= 0 and bBcCdDeEfFg(0, 21) then
+--                             sSeEtTvVbBn(_veh, 150.0)
+--                         end
+--                     end
+--                     fFfGgGgHhIi(0)
+--                 end
+--             end)
+--         end
 
-        ZxCvBnMmLl()
-    ]])
-end, function()
-     MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
-        QwErTyUiOpSh = false
-    ]])
-end)
+--         ZxCvBnMmLl()
+--     ]])
+-- end, function()
+--      MachoInjectResourceRaw(CheckResource("brutal_paintball") and "brutal_paintball" or CheckResource("lunar_bridge") and "lunar_bridge",[[
+--         QwErTyUiOpSh = false
+--     ]])
+-- end)
 
 -- 🧲 تعريف المتغيرات الإضافية لمزايا أخرى (اختياري)
 local groundMagnetActive = false
